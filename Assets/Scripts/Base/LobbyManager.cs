@@ -51,12 +51,18 @@ namespace Base
             Players = PhotonNetwork.CurrentRoom.Players.Select(pair => new PlayerLobbyItemData(pair.Value)).ToList();
             CheckStartButtonAvailability();            
         }
-
+        
         public virtual void StartGame()
+        {
+            photonView.RPC(nameof(StartGameRPC), RpcTarget.All);
+        }
+
+        [PunRPC]
+        public void StartGameRPC()
         {
             SceneTransition.TransitionToScene(gameMode.gameScene);
         }
-
+        
         protected virtual void CheckStartButtonAvailability()
         {
             if (IsHost)

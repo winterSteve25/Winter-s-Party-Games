@@ -39,5 +39,10 @@ namespace Utils
         {
             return HasKey(key) && condition(Read<T>(key));
         }
+
+        public static void Remove(string key)
+        {
+            Data.Remove(key);
+        }
     }
 }

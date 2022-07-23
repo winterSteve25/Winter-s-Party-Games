@@ -38,6 +38,9 @@ namespace Utils
         {
             public const string IsHost = "IsHost";
             public const string SteamLobbyID = "SteamLobbyID";
+
+            public const string ScrambledEggsGameData = "ScrambledEggsGameData";
+            
         }
     }
 }

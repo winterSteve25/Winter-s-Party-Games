@@ -75,7 +75,7 @@ namespace Network
         public static void SendMessage(IMessage message, RaiseEventOptions options, SendOptions sendOptions)
         {
             var msg = _instance._messages.First(kv => kv.Value.GetType() == message.GetType());
-            PhotonNetwork.RaiseEvent(msg.Key, msg.Value.Send(), options, sendOptions);
+            PhotonNetwork.RaiseEvent(msg.Key, message.Send(), options, sendOptions);
         }
     }
 }

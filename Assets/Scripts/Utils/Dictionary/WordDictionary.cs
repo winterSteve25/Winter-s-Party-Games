@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
-using Utils.Dictionary;
 using Random = UnityEngine.Random;
 
-namespace Utils
+namespace Utils.Dictionary
 {
     public static class WordDictionary
     {
@@ -29,7 +29,7 @@ namespace Utils
             var dataStr = uwr.downloadHandler.text;
             if (string.IsNullOrEmpty(dataStr)) yield break;
             
-            var data = JsonUtility.FromJson<DefinitionResponse[]>(dataStr);
+            var data = JsonConvert.DeserializeObject<DefinitionResponse[]>(dataStr);
             callback(data[0].meanings[0].definitions[0].definition);
         }
 
