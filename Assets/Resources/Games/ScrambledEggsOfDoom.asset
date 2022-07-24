@@ -15,4 +15,4 @@ MonoBehaviour:
   roomScene: 6
   gameScene: 7
   maximumPlayers: 0
-  minimumPlayers: 0
+  minimumPlayers: 2

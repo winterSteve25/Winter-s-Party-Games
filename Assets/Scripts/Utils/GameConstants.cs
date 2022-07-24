@@ -16,7 +16,12 @@ namespace Utils
             JoinRoom = 4,
             JoiningRoomViaSteam = 5,
             ScrambledEggsOfDoomLobby = 6,
-            ScrambledEggsOfDoomStage1 = 7
+            ScrambledEggsOfDoomStage1 = 7,
+            ScrambledEggsOfDoomStage2 = 8,
+            ScrambledEggsOfDoomStage3 = 9,
+            ScrambledEggsOfDoomStage4 = 10,
+            ScrambledEggsOfDoomStage5 = 11,
+            ScrambledEggsOfDoomVoting = 12,
         }
 
         public static class CustomRoomProperties
@@ -41,6 +46,11 @@ namespace Utils
 
             public const string ScrambledEggsGameData = "ScrambledEggsGameData";
             
+        }
+
+        public static class Flags
+        {
+            public const int BotPlayerActorID = -99;
         }
     }
 }

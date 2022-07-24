@@ -42,6 +42,9 @@ MonoBehaviour:
   - StartGame
   - StartGameRPC
   - SubmitWordRPC
+  - NextScene
+  - NextSceneRPC
+  - SubmitRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

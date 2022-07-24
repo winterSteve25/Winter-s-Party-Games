@@ -10,5 +10,10 @@ namespace Games.ScrambledEggs.Data
             SubmitterActorID = submitterActorID;
             SubmissionContent = submissionContent;
         }
+
+        public override string ToString()
+        {
+            return $"{{Actor ID: {SubmitterActorID}, Submission Content: {SubmissionContent.ToString()}}}";
+        }
     }
 }

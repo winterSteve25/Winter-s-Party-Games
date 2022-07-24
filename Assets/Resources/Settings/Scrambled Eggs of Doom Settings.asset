@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc991aa0da34e608202108027f06ccd, type: 3}
   m_Name: Scrambled Eggs of Doom Settings
   m_EditorClassIdentifier: 
+  timeLimitWord: 5
+  timeLimitDrawing: 15

@@ -29,4 +29,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ScrambledEggsOfDoom/Stage1.unity
     guid: 9e63c7b7c9d518bd5895278b9d57fc55
+  - enabled: 1
+    path: Assets/Scenes/ScrambledEggsOfDoom/Stage2.unity
+    guid: e0a3a13f4c1762ae4a0d6d816f609bac
+  - enabled: 1
+    path: Assets/Scenes/ScrambledEggsOfDoom/Stage3.unity
+    guid: bbcedd8d0955c57b2afde87da9fcb310
+  - enabled: 1
+    path: Assets/Scenes/ScrambledEggsOfDoom/Stage4.unity
+    guid: 06d5712181b64efcbbabac094ecdf9d7
+  - enabled: 1
+    path: Assets/Scenes/ScrambledEggsOfDoom/Stage5.unity
+    guid: f5d1cbb41626a581b9850c5166d6c927
+  - enabled: 1
+    path: Assets/Scenes/ScrambledEggsOfDoom/Voting.unity
+    guid: d37d3eb0c6aac24489b47a0ac10aeb22
   m_configObjects: {}

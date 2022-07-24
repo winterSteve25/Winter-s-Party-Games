@@ -8,17 +8,11 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEditor;
-
-using Photon.Pun;
-using Photon.Realtime;
-using ExitGames.Client.Photon;
-using UnityEngine.SceneManagement;
 
 namespace Photon.Pun.Demo.Hub
 {
