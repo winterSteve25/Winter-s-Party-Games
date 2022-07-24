@@ -32,6 +32,7 @@ namespace Utils
         public static class CustomPlayerProperties
         {
             public const string AvatarIndex = "avi";
+            public const string IsHost = "h";
         }
 
         public static class SteamworksLobbyData

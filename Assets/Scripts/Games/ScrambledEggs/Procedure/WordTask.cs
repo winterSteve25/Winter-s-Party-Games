@@ -77,27 +77,25 @@ namespace Games.ScrambledEggs.Procedure
         private void TimerComplete()
         {
             SubmitWord();
-            PhotonView.Get(this).RPC(nameof(NextSceneRPC), RpcTarget.All);
+            StartCoroutine(Next());
         }
 
+        private int _dataReceived;
+        
         [PunRPC]
         private void SubmitRPC(int stage1, int actorID, string content)
         {
             GlobalData.Read<GameData>(GameConstants.GlobalData.ScrambledEggsGameData)
                 .GetSimpleTasks(stage1)
                 .Add(new Submission<string>(actorID, content));
-        }
-        
-        [PunRPC]
-        private void NextSceneRPC()
-        {
-            StartCoroutine(Next());
+
+            _dataReceived++;
         }
 
         private IEnumerator Next()
         {
-            yield return new WaitForSeconds(1f);
-            
+            yield return new WaitUntil(() => _dataReceived == PhotonNetwork.CurrentRoom.PlayerCount);
+
             switch (stage)
             {
                 case 1:

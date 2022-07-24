@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Menu
 {
+    [RequireComponent(typeof(ParticleSystem))]
     public class ParticlesResizer : MonoBehaviour
     {
         private ParticleSystem _particleSystem;

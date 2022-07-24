@@ -10,7 +10,7 @@ namespace Games.ScrambledEggs.Data
         private readonly List<Submission<string>> _stage2Submissions;
         private readonly List<Submission<string>> _stage3Submissions;
         private readonly List<Submission<string>> _stage4Submissions;
-        public readonly List<Submission<Texture2D>> Stage5Submissions;
+        public readonly List<PaintingSubmission> Stage5Submissions;
 
         public GameData()
         {
@@ -18,7 +18,7 @@ namespace Games.ScrambledEggs.Data
             _stage2Submissions = new List<Submission<string>>();
             _stage3Submissions = new List<Submission<string>>();
             _stage4Submissions = new List<Submission<string>>();
-            Stage5Submissions = new List<Submission<Texture2D>>();
+            Stage5Submissions = new List<PaintingSubmission>();
         }
 
         public List<Submission<string>> GetSimpleTasks(int stage)

@@ -50,36 +50,34 @@ namespace Games.ScrambledEggs.Procedure
         {
             if (_submitted) return;
             var texture = drawing.drawable_texture;
-            PhotonView.Get(this).RPC(nameof(SubmitRPC), RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, texture.width, texture.height, texture.GetPixels());
+            PhotonView.Get(this).RPC(nameof(SubmitRPC), RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, texture.width, texture.height, texture.GetPixels(), sentence.text);
             _submitted = true;
         }
 
         private void TimerComplete()
         {
             Submit();
-            PhotonView.Get(this).RPC(nameof(NextSceneRPC), RpcTarget.All);
+            StartCoroutine(Next());
         }
 
+        private int _dataReceived;
+        
         [PunRPC]
-        private void SubmitRPC(int actorID, int width, int height, Color[] content)
+        private void SubmitRPC(int actorID, int width, int height, Color[] content, string context)
         {
             var texture = new Texture2D(width, height);
             texture.SetPixels(content);
             texture.Apply();
             
             GlobalData.Read<GameData>(GameConstants.GlobalData.ScrambledEggsGameData).Stage5Submissions
-                .Add(new Submission<Texture2D>(actorID, texture));
-        }
-        
-        [PunRPC]
-        private void NextSceneRPC()
-        {
-            StartCoroutine(Next());
+                .Add(new PaintingSubmission(actorID, texture, context));
+
+            _dataReceived++;
         }
 
-        private static IEnumerator Next()
+        private IEnumerator Next()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitUntil(() => _dataReceived == PhotonNetwork.CurrentRoom.PlayerCount);
             SceneTransition.TransitionToScene(GameConstants.SceneIndices.ScrambledEggsOfDoomVoting);
         }
     }

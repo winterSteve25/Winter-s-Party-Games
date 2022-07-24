@@ -26,6 +26,11 @@ namespace Network
             return (T) player.CustomProperties[key];
         }
 
+        public static bool HasData(Player player, string key)
+        {
+            return player.CustomProperties.ContainsKey(key);
+        }
+
         public static void ComputeIfPresent<T>(Player player, string key, Action<T> action)
         {
             var data = player.CustomProperties;

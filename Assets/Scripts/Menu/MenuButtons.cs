@@ -12,7 +12,6 @@ namespace Menu
 
         public void PreferencesButtonClicked()
         {
-            
         }
 
         public void QuitButtonClicked()

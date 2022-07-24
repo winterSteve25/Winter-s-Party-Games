@@ -11,7 +11,8 @@ namespace Games.Base
         public GameConstants.SceneIndices gameScene;
         public byte maximumPlayers = 0;
         public byte minimumPlayers = 0;
-
+        public Sprite[] playerAvatars;
+        
         public Hashtable CustomRoomProperties => new() { { GameConstants.CustomRoomProperties.Scene, roomScene } };
     }
 }

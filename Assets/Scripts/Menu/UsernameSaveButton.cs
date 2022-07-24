@@ -1,3 +1,4 @@
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using Utils;
@@ -10,7 +11,9 @@ namespace Menu
         
         public void ConfirmUsernameButtonClicked()
         {
-            PlayerPrefs.SetString(GameConstants.PlayerPrefs.Username, inputField.text);
+            var localPlayerNickName = inputField.text.Replace("\r", "");
+            PhotonNetwork.LocalPlayer.NickName = localPlayerNickName;
+            PlayerPrefs.SetString(GameConstants.PlayerPrefs.Username, localPlayerNickName);
             PlayerPrefs.Save();
         }
     }

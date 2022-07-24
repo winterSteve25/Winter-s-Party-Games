@@ -14,5 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomScene: 6
   gameScene: 7
-  maximumPlayers: 0
+  maximumPlayers: 8
   minimumPlayers: 2
+  playerAvatars:
+  - {fileID: 619223149, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
+  - {fileID: -1299122390, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
+  - {fileID: -600867422, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
+  - {fileID: -1786844175, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
+  - {fileID: 255302756, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
+  - {fileID: -1742015725, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
+  - {fileID: 1751039737, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
+  - {fileID: -2062958965, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}

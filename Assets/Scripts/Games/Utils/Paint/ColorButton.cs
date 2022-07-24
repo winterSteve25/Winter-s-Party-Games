@@ -6,7 +6,7 @@ namespace Games.Utils.Paint
 {
     public class ColorButton : MonoBehaviour
     {
-        public Color color;
+        public ColorPalette color;
         
         private DrawingSettings _settings;
 
@@ -32,7 +32,7 @@ namespace Games.Utils.Paint
 
         public void Initialize(DrawingSettings settings)
         {
-            settings.SetMarkerColour(color);
+            settings.SetMarkerColour(ColorPaletteExtension.GetColorFromCode(color));
         }
     }
 }
