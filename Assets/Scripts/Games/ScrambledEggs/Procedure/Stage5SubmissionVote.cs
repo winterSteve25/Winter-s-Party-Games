@@ -9,6 +9,7 @@ namespace Games.ScrambledEggs.Procedure
     [RequireComponent(typeof(Button))]
     public class Stage5SubmissionVote : MonoBehaviour
     {
+        [SerializeField] private RectTransform voteOption;
         private int _index;
 
         public void Init(int index, Texture2D painting, string sentence)
@@ -30,7 +31,7 @@ namespace Games.ScrambledEggs.Procedure
 
         private void OnClick()
         {
-            FindObjectOfType<VoteManager>().Vote(PhotonNetwork.LocalPlayer.ActorNumber, _index);
+            FindObjectOfType<VoteManager>().Vote(PhotonNetwork.LocalPlayer.ActorNumber, _index, voteOption.position, voteOption.rotation);
         }
     }
 }

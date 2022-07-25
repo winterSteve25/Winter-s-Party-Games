@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using FreeDraw;
@@ -26,22 +27,23 @@ namespace Games.ScrambledEggs.Procedure
 
         [SerializeField] private GameObject[] inputs;
         [SerializeField] private GameObject waitingMessage;
-        
+
         private bool _submitted;
 
         private void Awake()
         {
             PhotonNetwork.IsMessageQueueRunning = true;
-            
+
             var localPlayer = PhotonNetwork.LocalPlayer;
             var data = GlobalData.Read<GameData>(GameConstants.GlobalData.ScrambledEggsGameData);
             var stage4Submissions = data.GetSimpleTasks(4);
             var stage3Submissions = data.GetSimpleTasks(3);
             var stage2Submissions = data.GetSimpleTasks(2);
 
-            sentence.text = $"{SubmissionHelper.FindSubmission(stage2Submissions, localPlayer, WordDictionary.GetRandomAdjective()).SubmissionContent} " +
-                            $"{SubmissionHelper.FindSubmission(stage3Submissions, localPlayer, WordDictionary.GetRandomNoun()).SubmissionContent} of " +
-                            $"{SubmissionHelper.FindSubmission(stage4Submissions, localPlayer, WordDictionary.GetRandomNoun()).SubmissionContent}";
+            sentence.text =
+                $"{SubmissionHelper.FindSubmission(stage2Submissions, localPlayer, WordDictionary.GetRandomAdjective()).SubmissionContent} " +
+                $"{SubmissionHelper.FindSubmission(stage3Submissions, localPlayer, WordDictionary.GetRandomNoun()).SubmissionContent} of " +
+                $"{SubmissionHelper.FindSubmission(stage4Submissions, localPlayer, WordDictionary.GetRandomNoun()).SubmissionContent}";
             timer.timeLimit = settings.timeLimitDrawing;
             timer.StartTimer();
         }
@@ -69,10 +71,12 @@ namespace Games.ScrambledEggs.Procedure
             {
                 go.SetActive(false);
             }
+
             waitingMessage.SetActive(true);
-            
+
             var texture = drawing.drawable_texture;
-            PhotonView.Get(this).RPC(nameof(SubmitRPC), RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber, texture.width, texture.height, texture.GetPixels(), sentence.text);
+            PhotonView.Get(this).RPC(nameof(SubmitRPC), RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber,
+                texture.width, texture.height, texture.GetPixels(), sentence.text);
             _submitted = true;
         }
 
@@ -82,33 +86,57 @@ namespace Games.ScrambledEggs.Procedure
             StartCoroutine(Next());
         }
 
-        private int _dataReceived;
-        
+        private Dictionary<int, List<int>> _receiveStatus = new();
+        private bool _receivedAll;
+
         [PunRPC]
         private void SubmitRPC(int actorID, int width, int height, Color[] content, string context)
         {
             var texture = new Texture2D(width, height);
             texture.SetPixels(content);
             texture.Apply();
-            
+
             GlobalData.Read<GameData>(GameConstants.GlobalData.ScrambledEggsGameData).Stage5Submissions
                 .Add(new PaintingSubmission(actorID, texture, context));
 
-            _dataReceived++;
-            
-            submissionIndicator.Submit(actorID).OnComplete(() =>
+            PhotonView.Get(this).RPC(nameof(DataReceived), RpcTarget.All, actorID,
+                PhotonNetwork.LocalPlayer.ActorNumber);
+        }
+
+        // this is necessary because images take a while to send through the network. and the submitter always receives the data first without insurance that others have received the information as well, therefore creating a de-sync
+        [PunRPC]
+        private void DataReceived(int receivedSubmissionFrom, int whoReceived)
+        {
+            if (!_receiveStatus.ContainsKey(whoReceived))
             {
-                // if all players has submitted stop waiting for the timer
-                if (_dataReceived == PhotonNetwork.CurrentRoom.PlayerCount)
+                _receiveStatus.Add(whoReceived, new List<int>());
+            }
+
+            // make note that this player (whoReceived) has received submission from another player (receivedSubmissionFrom)
+            _receiveStatus[whoReceived].Add(receivedSubmissionFrom);
+
+            submissionIndicator.Submit(receivedSubmissionFrom).OnComplete(() =>
+            {
+                // if all players has received some submission
+                var allPlayersHaveReceivedSubmissions = PhotonNetwork.CurrentRoom.Players.Keys.All(p => _receiveStatus.ContainsKey(p));
+                var allPlayersHaveReceivedAllSubmissions = _receiveStatus.Keys.All(receivers =>
                 {
-                    TimerComplete();
+                    var allReceivedSubmissions = _receiveStatus[receivers];
+                    return PhotonNetwork.CurrentRoom.Players.Keys.All(p => allReceivedSubmissions.Contains(p));
+                });
+
+                _receivedAll = allPlayersHaveReceivedSubmissions && allPlayersHaveReceivedAllSubmissions;
+                
+                if (_receivedAll)
+                {
+                    StartCoroutine(Next());
                 }
             });
         }
 
         private IEnumerator Next()
         {
-            yield return new WaitUntil(() => _dataReceived >= PhotonNetwork.CurrentRoom.PlayerCount);
+            yield return new WaitUntil(() => _receivedAll);
             PhotonNetwork.IsMessageQueueRunning = false;
             SceneTransition.TransitionToScene(GameConstants.SceneIndices.ScrambledEggsOfDoomVoting);
         }

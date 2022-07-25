@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Globalization;
-using Base;
 using DG.Tweening;
 using Games.Base;
 using Games.ScrambledEggs.Data;
@@ -11,8 +9,8 @@ using Photon.Pun;
 using Settings;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using Utils;
+using Utils.Audio;
 using Utils.Dictionary;
 
 namespace Games.ScrambledEggs.Procedure
@@ -29,6 +27,10 @@ namespace Games.ScrambledEggs.Procedure
         [SerializeField] private GameObject waitingMessage;
 
         [SerializeField] private SubmissionIndicator submissionIndicator;
+
+        [SerializeField] private RectTransform emptyInputPrompt;
+        [SerializeField] private CanvasGroup yesButton;
+        [SerializeField] private CanvasGroup noButton;
         
         private bool _submitted;
 
@@ -66,6 +68,7 @@ namespace Games.ScrambledEggs.Procedure
 
         private void Start()
         {
+            emptyInputPrompt.gameObject.SetActive(false);
             waitingMessage.SetActive(false);
         }
 
@@ -82,18 +85,78 @@ namespace Games.ScrambledEggs.Procedure
         public void SubmitWord()
         {
             if (_submitted) return;
+            StartCoroutine(SubmitWordCoroutine());
+        }
+
+        private bool _answered;
+        private bool _yes;
+        
+        private IEnumerator SubmitWordCoroutine()
+        {
+            // if input is empty and it is stage 1, 3 or 4 we get a random noun, if its stage 2 get random adjective
+            // if input is not null we make it Title Case
+
+            string input;
+
+            if (string.IsNullOrEmpty(inputField.text))
+            {
+                emptyInputPrompt.localScale = Vector3.zero;
+                emptyInputPrompt.gameObject.SetActive(true);
+                emptyInputPrompt.DOScale(Vector3.one, 0.2f);
+                SoundManager.Play(GameConstants.Sounds.PopUp);
+                yield return new WaitForSeconds(0.5f);
+                yesButton.DOFade(1, 0.5f);
+                noButton.DOFade(1, 0.5f);
+                
+                yield return new WaitUntil(() => _answered);
+
+                SoundManager.Play(GameConstants.Sounds.SceneTransitionFinish);
+                emptyInputPrompt.DOScale(Vector3.zero, 0.2f).OnComplete(() =>
+                {
+                    emptyInputPrompt.gameObject.SetActive(false);
+                });
+
+                if (_yes)
+                {
+                    input = stage == 2 ? WordDictionary.GetRandomAdjective() : WordDictionary.GetRandomNoun();
+                }
+                else
+                {
+                    inputs.SetActive(true);
+                    waitingMessage.SetActive(false);
+                    _submitted = false;
+
+                    _answered = false;
+                    _yes = false;
+                    
+                    yield break;
+                }
+            }
+            else
+            {
+                input = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(inputField.text);
+            }
             
             inputs.SetActive(false);
             waitingMessage.SetActive(true);
+            _submitted = true;
             
-            // if input is empty and it is stage 1, 3 or 4 we get a random noun, if its stage 2 get random adjective
-            // if input is not null we make it Title Case
-            var input = string.IsNullOrEmpty(inputField.text) ? stage == 2 ? WordDictionary.GetRandomAdjective() : WordDictionary.GetRandomNoun() : CultureInfo.CurrentCulture.TextInfo.ToTitleCase(inputField.text);
             // submit input to other all players
             PhotonView.Get(this).RPC(nameof(SubmitRPC), RpcTarget.All, stage, PhotonNetwork.LocalPlayer.ActorNumber, input.Replace("\r", ""));
-            _submitted = true;
         }
 
+        public void YesToEmpty()
+        {
+            _yes = true;
+            _answered = true;
+        }
+
+        public void NoToEmpty()
+        {
+            _yes = false;
+            _answered = true;
+        }
+        
         private void TimerComplete()
         {
             SubmitWord();

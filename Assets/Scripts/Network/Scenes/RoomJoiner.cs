@@ -10,7 +10,8 @@ namespace Network.Scenes
     public class RoomJoiner : MonoBehaviourPunCallbacks
     {
         [SerializeField] private TextMeshProUGUI text;
-
+        [SerializeField] private GameObject backButton;
+        
         private void Awake()
         {
             PhotonNetwork.IsMessageQueueRunning = true;
@@ -19,6 +20,7 @@ namespace Network.Scenes
         private void Start()
         {
             text.text = "Joining...";
+            backButton.SetActive(false);
             PhotonNetwork.JoinRoom(GlobalData.Read<string>(GameConstants.GlobalData.RoomIDToJoin));
         }
         
@@ -30,6 +32,7 @@ namespace Network.Scenes
 
         public override void OnJoinRoomFailed(short returnCode, string message)
         {
+            backButton.SetActive(true);
             text.text = "Failed to join room.\nReason: " + message;
         }
     }

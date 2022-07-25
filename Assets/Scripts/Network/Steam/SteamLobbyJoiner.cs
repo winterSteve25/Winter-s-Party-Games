@@ -11,6 +11,8 @@ namespace Network.Steam
     public class SteamLobbyJoiner : MonoBehaviourPunCallbacks
     {
         [SerializeField] private TextMeshProUGUI text;
+        [SerializeField] private GameObject backButton;
+        
         private Callback<LobbyEnter_t> _lobbyEntered;
         private Callback<LobbyDataUpdate_t> _lobbyDataUpdated;
 
@@ -20,6 +22,7 @@ namespace Network.Steam
 
         private void Start()
         {
+            backButton.SetActive(false);
             _lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
             _lobbyDataUpdated = Callback<LobbyDataUpdate_t>.Create(OnLobbyDataUpdated);
             SteamMatchmaking.JoinLobby(GlobalData.Read<CSteamID>(GameConstants.GlobalData.SteamLobbyIDToJoin));
@@ -86,6 +89,7 @@ namespace Network.Steam
         
         public override void OnJoinRoomFailed(short returnCode, string message)
         {
+            backButton.SetActive(true);
             text.text = "Failed to join room.\nReason: " + message;
         }
     }

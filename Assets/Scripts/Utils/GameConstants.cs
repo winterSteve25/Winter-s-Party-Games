@@ -50,12 +50,29 @@ namespace Utils
             
             public const string ScrambledEggsGameData = "ScrambledEggsGameData";
             public const string ScrambledEggsVoteResult = "ScrambledEggsVoteResult";
-            
         }
 
         public static class Flags
         {
             public const int BotPlayerActorID = -99;
+        }
+
+        public enum Sounds
+        {
+            ButtonHover,
+            PlayerJoinLobby,
+            PlayerLeaveLobby,
+            SceneTransition,
+            SceneTransitionFinish,
+            PopUp
+        }
+
+        public enum SoundCategory
+        {
+            Music,
+            UI,
+            Sfx,
+            Master
         }
     }
 }

@@ -9,6 +9,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
+using Utils.Audio;
 
 namespace Base
 {
@@ -166,6 +167,7 @@ namespace Base
         [PunRPC]
         private void JoinGame(int actorId, int chosenAvatar)
         {
+            SoundManager.Play(GameConstants.Sounds.PlayerJoinLobby);
             var data = new PlayerLobbyItemData(PhotonNetwork.CurrentRoom.GetPlayer(actorId), chosenAvatar);
             AddPlayerToNextAvailableSlot(data);
             LobbyData.Instance.Players.Add(data);
@@ -180,6 +182,7 @@ namespace Base
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
+            SoundManager.Play(GameConstants.Sounds.PlayerLeaveLobby);
             RestorePlayerSlot(otherPlayer);
             LobbyData.Instance.Players.RemoveAll(p => p.actorID == otherPlayer.ActorNumber);
 

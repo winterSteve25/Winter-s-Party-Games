@@ -22,7 +22,7 @@ namespace Games.Base
 
     public static class VoteExtension
     {
-        public static int MostVoted(this IEnumerable<Vote> votes)
+        public static int MostVoted(this IEnumerable<Vote> votes, out List<int> ties)
         {
             // keys are vote index, values are how many voted for
             var voteCounts = new Dictionary<int, int>();
@@ -39,12 +39,26 @@ namespace Games.Base
                 }
             }
 
+            ties = new List<int>();
             var highest = (-1, 0);
 
             foreach (var (k, v) in voteCounts)
             {
-                if (v > highest.Item2 || highest.Item1 == -1)
+                if (highest.Item1 == -1)
                 {
+                    highest = (k, v);
+                    continue;
+                }
+
+                if (v == highest.Item2)
+                {
+                    ties.Add(v);
+                    continue;
+                }
+
+                if (v > highest.Item2)
+                {
+                    ties.Clear();
                     highest = (k, v);
                 }
             }

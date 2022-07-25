@@ -1,6 +1,8 @@
 using System;
 using Games.ScrambledEggs.Data;
+using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UI;
 using Utils;
 
 namespace Games.ScrambledEggs.Procedure
@@ -15,6 +17,7 @@ namespace Games.ScrambledEggs.Procedure
         {
             var data = GlobalData.Read<GameData>(GameConstants.GlobalData.ScrambledEggsGameData);
             var submissions = data.Stage5Submissions;
+            submissions.Sort((a, b) => b.SubmitterActorID.CompareTo(a.SubmitterActorID));
 
             var submissionsCount = submissions.Count % 4;
             var perRow = submissionsCount == 0 ? 4 : submissionsCount;
@@ -25,9 +28,14 @@ namespace Games.ScrambledEggs.Procedure
             {
                 for (var j = 0; j < perRow; j++)
                 {
-                    var instantiate = Instantiate(submissionPrefab, i == 0 ? row1 : row2);
                     var sub = submissions[k];
+                    
+                    var instantiate = Instantiate(submissionPrefab, i == 0 ? row1 : row2);
                     instantiate.GetComponent<Stage5SubmissionVote>().Init(k, sub.SubmissionContent, sub.Context);
+                    if (sub.SubmitterActorID == PhotonNetwork.LocalPlayer.ActorNumber)
+                    {
+                        instantiate.GetComponent<Button>().interactable = false;
+                    }
                     k++;
                 }
             }
