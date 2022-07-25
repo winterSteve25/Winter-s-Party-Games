@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils.Audio;
@@ -15,6 +17,8 @@ namespace Utils
         private static readonly int Start = Animator.StringToHash("Start");
         private static readonly int End = Animator.StringToHash("End");
 
+        public static event Action OnTransitionedToNewScene;
+        
         private void Awake()
         {
             if (_instance == null)
@@ -41,7 +45,9 @@ namespace Utils
 
             yield return SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);
             
+            OnTransitionedToNewScene?.Invoke();
             SoundManager.Play(GameConstants.Sounds.SceneTransitionFinish);
+            
             if (useTransition)
             {
                 animator.SetTrigger(End);
