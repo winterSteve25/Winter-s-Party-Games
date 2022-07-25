@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Games.Base;
 using Games.ScrambledEggs.Data;
 using Photon.Pun;
 using Photon.Realtime;

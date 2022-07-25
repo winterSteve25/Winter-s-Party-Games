@@ -10,7 +10,8 @@ namespace Network.Scenes
     public class CreateRoomButton : MonoBehaviourPunCallbacks
     {
         [SerializeField] private PartyGame partyGame;
-
+        private bool _creating;
+        
         public override void OnEnable()
         {
             base.OnEnable();
@@ -25,6 +26,7 @@ namespace Network.Scenes
 
         private void CreateRoomButtonClicked()
         {
+            GetComponent<Button>().interactable = false;
             GlobalData.Set(GameConstants.GlobalData.IsHost, true);
             CreateRoom();
         }
@@ -47,10 +49,13 @@ namespace Network.Scenes
 
         public override void OnCreateRoomFailed(short returnCode, string message)
         {
-            // TODO
             if (returnCode == ErrorCode.GameIdAlreadyExists)
             {
                 CreateRoom();
+            }
+            else
+            {
+                GetComponent<Button>().interactable = true;
             }
         }
     }

@@ -22,7 +22,7 @@ namespace Network.Steam
         {
             _lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
             _lobbyDataUpdated = Callback<LobbyDataUpdate_t>.Create(OnLobbyDataUpdated);
-            SteamMatchmaking.JoinLobby(GlobalData.Read<CSteamID>(GameConstants.GlobalData.SteamLobbyID));
+            SteamMatchmaking.JoinLobby(GlobalData.Read<CSteamID>(GameConstants.GlobalData.SteamLobbyIDToJoin));
         }
 
         private void OnLobbyEntered(LobbyEnter_t callback)
@@ -80,7 +80,13 @@ namespace Network.Steam
 
         public override void OnJoinedRoom()
         {
+            PhotonNetwork.IsMessageQueueRunning = false;
             SceneTransition.TransitionToScene(RoomData.Read<GameConstants.SceneIndices>(GameConstants.CustomRoomProperties.Scene));
+        }
+        
+        public override void OnJoinRoomFailed(short returnCode, string message)
+        {
+            text.text = "Failed to join room.\nReason: " + message;
         }
     }
 }

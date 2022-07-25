@@ -47,6 +47,7 @@ MonoBehaviour:
   - SubmitRPC
   - VoteRPC
   - JoinGame
+  - NextRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

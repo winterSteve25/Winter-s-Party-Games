@@ -1,3 +1,4 @@
+using Games.Base;
 using UnityEngine;
 
 namespace Games.ScrambledEggs.Data

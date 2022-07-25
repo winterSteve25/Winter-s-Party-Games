@@ -15,13 +15,15 @@ namespace Utils
             CreateRoom = 3,
             JoinRoom = 4,
             JoiningRoomViaSteam = 5,
-            ScrambledEggsOfDoomLobby = 6,
-            ScrambledEggsOfDoomStage1 = 7,
-            ScrambledEggsOfDoomStage2 = 8,
-            ScrambledEggsOfDoomStage3 = 9,
-            ScrambledEggsOfDoomStage4 = 10,
-            ScrambledEggsOfDoomStage5 = 11,
-            ScrambledEggsOfDoomVoting = 12,
+            JoiningRoom = 6,
+            ScrambledEggsOfDoomLobby = 7,
+            ScrambledEggsOfDoomStage1 = 8,
+            ScrambledEggsOfDoomStage2 = 9,
+            ScrambledEggsOfDoomStage3 = 10,
+            ScrambledEggsOfDoomStage4 = 11,
+            ScrambledEggsOfDoomStage5 = 12,
+            ScrambledEggsOfDoomVoting = 13,
+            ScrambledEggsOfDoomResult = 14,
         }
 
         public static class CustomRoomProperties
@@ -43,9 +45,11 @@ namespace Utils
         public static class GlobalData
         {
             public const string IsHost = "IsHost";
-            public const string SteamLobbyID = "SteamLobbyID";
-
+            public const string SteamLobbyIDToJoin = "SteamLobbyIDToJoin";
+            public const string RoomIDToJoin = "RoomIDToJoin";
+            
             public const string ScrambledEggsGameData = "ScrambledEggsGameData";
+            public const string ScrambledEggsVoteResult = "ScrambledEggsVoteResult";
             
         }
 

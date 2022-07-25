@@ -5,24 +5,17 @@ using Utils;
 
 namespace Network.Scenes
 {
-    public class JoinRoomButton : MonoBehaviourPunCallbacks
+    public class JoinRoomButton : MonoBehaviour
     {
         [SerializeField] private TMP_InputField joinInput;
         
         public void JoinRoomButtonClicked()
         {
+            if (string.IsNullOrEmpty(joinInput.text)) return;
             GlobalData.Set(GameConstants.GlobalData.IsHost, false);
-            PhotonNetwork.JoinRoom(joinInput.text);
-        }
-
-        public override void OnJoinedRoom()
-        {
-            SceneTransition.TransitionToScene(RoomData.Read<GameConstants.SceneIndices>(GameConstants.CustomRoomProperties.Scene));
-        }
-
-        public override void OnJoinRoomFailed(short returnCode, string message)
-        {
-            // TODO show error
+            GlobalData.Set(GameConstants.GlobalData.RoomIDToJoin, joinInput.text.Replace("\r", "").Replace(" ", ""));
+            PhotonNetwork.IsMessageQueueRunning = false;
+            SceneTransition.TransitionToScene(GameConstants.SceneIndices.JoiningRoom, false);
         }
     }
 }

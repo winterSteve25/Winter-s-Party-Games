@@ -1,4 +1,4 @@
-namespace Games.ScrambledEggs.Data
+namespace Games.Base
 {
     public class Submission<T>
     {

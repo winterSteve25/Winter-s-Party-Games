@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using Games.Base;
 using Network;
 using Photon.Pun;
@@ -19,16 +20,21 @@ namespace Base
         [SerializeField] protected TextMeshProUGUI roomCodeText;
         [SerializeField] protected Button startGameButton;
 
-        [SerializeField] protected PlayerLobbyItem[] availablePlayerSlots;
         protected List<PlayerLobbyItem> AllPlayerSlots;
+        [SerializeField] protected PlayerLobbyItem[] availablePlayerSlots;
         [SerializeField] protected PartyGame gameMode;
+
+        [SerializeField] protected GameObject hostCrown;
 
         protected List<int> AvailableAvatarIndices;
         protected bool IsHost;
         protected int SelfAvatarChoice;
+        protected PlayerLobbyItem SelfSlot;
 
         protected virtual void Awake()
         {
+            PhotonNetwork.IsMessageQueueRunning = true;
+
             if (GlobalData.ExistAnd<bool>(GameConstants.GlobalData.IsHost, isHost => isHost))
             {
                 foreach (var obj in playerObjects)
@@ -47,7 +53,7 @@ namespace Base
 
                 IsHost = false;
             }
-    
+
             // adds all available avatars
             AvailableAvatarIndices = new List<int>();
 
@@ -60,7 +66,8 @@ namespace Base
             foreach (var player in PhotonNetwork.CurrentRoom.Players.Values.Where(player =>
                          player.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber))
             {
-                AvailableAvatarIndices.Remove(PlayerData.Read<int>(player, GameConstants.CustomPlayerProperties.AvatarIndex));
+                AvailableAvatarIndices.Remove(PlayerData.Read<int>(player,
+                    GameConstants.CustomPlayerProperties.AvatarIndex));
             }
 
             // find a non taken avatar and remove it from the list of available avatars
@@ -77,7 +84,7 @@ namespace Base
         {
             // all slots is a copy of available player slots, used to restore slots when players leave
             AllPlayerSlots = new List<PlayerLobbyItem>(availablePlayerSlots);
-            
+
             // disable all player slots
             foreach (var slot in availablePlayerSlots)
             {
@@ -90,7 +97,7 @@ namespace Base
             {
                 PlayerLobbyItemData data;
                 var player = pair.Value;
-                
+
                 if (player.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
                 {
                     data = new PlayerLobbyItemData(player, SelfAvatarChoice);
@@ -105,8 +112,17 @@ namespace Base
             }).ToList();
 
             roomCodeText.text += PhotonNetwork.CurrentRoom.Name;
-            CheckStartButtonAvailability();
-            
+            CheckObjectsAvailability();
+            if (IsHost)
+            {
+                hostCrown.GetComponent<RectTransform>().position = SelfSlot.GetCrownLocation();
+                hostCrown.GetComponent<RectTransform>().rotation = SelfSlot.GetCrownRotation();
+            }
+            else
+            {
+                RefreshCrown();
+            }
+
             photonView.RPC(nameof(JoinGame), RpcTarget.Others, PhotonNetwork.LocalPlayer.ActorNumber, SelfAvatarChoice);
         }
 
@@ -115,13 +131,35 @@ namespace Base
             photonView.RPC(nameof(StartGameRPC), RpcTarget.All);
         }
 
-        protected virtual void CheckStartButtonAvailability()
+        protected virtual void CheckObjectsAvailability()
         {
             if (IsHost)
             {
+                foreach (var obj in playerObjects)
+                {
+                    obj.SetActive(false);
+                }
+
+                foreach (var obj in hostObjects)
+                {
+                    obj.SetActive(true);
+                }
+
                 startGameButton.interactable = LobbyData.Instance.gameMode.minimumPlayers == 0 ||
                                                LobbyData.Instance.Players.Count >=
                                                LobbyData.Instance.gameMode.minimumPlayers;
+            }
+            else
+            {
+                foreach (var obj in hostObjects)
+                {
+                    obj.SetActive(false);
+                }
+
+                foreach (var obj in playerObjects)
+                {
+                    obj.SetActive(true);
+                }
             }
         }
 
@@ -131,7 +169,7 @@ namespace Base
             var data = new PlayerLobbyItemData(PhotonNetwork.CurrentRoom.GetPlayer(actorId), chosenAvatar);
             AddPlayerToNextAvailableSlot(data);
             LobbyData.Instance.Players.Add(data);
-            CheckStartButtonAvailability();
+            CheckObjectsAvailability();
         }
 
         [PunRPC]
@@ -142,10 +180,9 @@ namespace Base
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
-            Debug.LogError(otherPlayer.IsMasterClient);
             RestorePlayerSlot(otherPlayer);
             LobbyData.Instance.Players.RemoveAll(p => p.actorID == otherPlayer.ActorNumber);
-            
+
             // if the player left is the host
             if (PlayerData.Read<bool>(otherPlayer, GameConstants.CustomPlayerProperties.IsHost))
             {
@@ -156,27 +193,67 @@ namespace Base
                     IsHost = true;
                     GlobalData.Set(GameConstants.GlobalData.IsHost, true);
                     PlayerData.Set(PhotonNetwork.LocalPlayer, GameConstants.CustomPlayerProperties.IsHost, true);
+
+                    hostCrown.GetComponent<RectTransform>().position = SelfSlot.GetCrownLocation();
+                    hostCrown.GetComponent<RectTransform>().rotation = SelfSlot.GetCrownRotation();
                 }
             }
-            CheckStartButtonAvailability();
+
+            CheckObjectsAvailability();
+
+            if (!IsHost)
+            {
+                RefreshCrown();
+            }
         }
 
         private void RestorePlayerSlot(Player player)
         {
             var data = LobbyData.Instance.Players.Find(p => p.actorID == player.ActorNumber);
             var slot = AllPlayerSlots[data.slotTaken];
-            slot.gameObject.SetActive(false);
-            availablePlayerSlots[data.slotTaken] = slot;
+            slot.GetComponentInChildren<Image>().GetComponent<RectTransform>().DOScale(Vector3.zero, 0.1f).OnComplete(
+                () =>
+                {
+                    slot.gameObject.SetActive(false);
+                    availablePlayerSlots[data.slotTaken] = slot;
+                });
         }
-        
+
         private void AddPlayerToNextAvailableSlot(PlayerLobbyItemData data)
         {
             var slot = availablePlayerSlots.First(element => element is not null);
             data.slotTaken = AllPlayerSlots.IndexOf(slot);
             availablePlayerSlots[data.slotTaken] = null;
+            var rectTransform = slot.GetComponentInChildren<Image>().GetComponent<RectTransform>();
+            rectTransform.localScale = Vector3.zero;
             slot.gameObject.SetActive(true);
+            rectTransform.DOScale(Vector3.one, 0.1f).SetEase(Ease.OutCubic);
             slot.data = data;
             slot.UpdateAppearance();
+
+            if (data.actorID == PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                SelfSlot = slot;
+            }
+        }
+
+        private void RefreshCrown()
+        {
+            foreach (var slot in AllPlayerSlots)
+            {
+                var dataActorID = slot.data.actorID;
+                if (dataActorID == PhotonNetwork.LocalPlayer.ActorNumber) continue;
+                var p = PhotonNetwork.CurrentRoom.GetPlayer(dataActorID);
+                if (p is null) continue;
+                var isHost = PlayerData.Read<bool>(p, GameConstants.CustomPlayerProperties.IsHost);
+
+                if (isHost)
+                {
+                    hostCrown.GetComponent<RectTransform>().position = slot.GetCrownLocation();
+                    hostCrown.GetComponent<RectTransform>().rotation = slot.GetCrownRotation();
+                    break;
+                }
+            }
         }
     }
 }

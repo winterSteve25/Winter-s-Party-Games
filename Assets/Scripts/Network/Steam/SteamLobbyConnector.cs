@@ -5,7 +5,7 @@ using Utils;
 
 namespace Network.Steam
 {
-    public class SteamLobbyConnector : MonoBehaviourPunCallbacks
+    public class SteamLobbyConnector : MonoBehaviour
     {
         private Callback<GameLobbyJoinRequested_t> _requestJoinLobby;
 
@@ -32,8 +32,8 @@ namespace Network.Steam
         private static void OnRequestJoinLobby(GameLobbyJoinRequested_t callback)
         {
             Debug.Log("Requested to join Steam lobby");
-            GlobalData.Set(GameConstants.GlobalData.SteamLobbyID, callback.m_steamIDLobby);
-            SceneTransition.TransitionToScene(GameConstants.SceneIndices.JoiningRoomViaSteam);
+            GlobalData.Set(GameConstants.GlobalData.SteamLobbyIDToJoin, callback.m_steamIDLobby);
+            SceneTransition.TransitionToScene(GameConstants.SceneIndices.JoiningRoomViaSteam, false);
         }
     }
 }

@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Network/JoiningRoomViaSteam.unity
     guid: d28eb7f099bdcb7db8e989e0e19c3135
   - enabled: 1
+    path: Assets/Scenes/Network/JoiningRoom.unity
+    guid: fd743fd7e95fe69cab82e26a733df1fe
+  - enabled: 1
     path: Assets/Scenes/ScrambledEggsOfDoom/Lobby.unity
     guid: 8dfc40b1699715cea8863e9567a87c52
   - enabled: 1
@@ -44,4 +47,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ScrambledEggsOfDoom/Voting.unity
     guid: d37d3eb0c6aac24489b47a0ac10aeb22
+  - enabled: 1
+    path: Assets/Scenes/ScrambledEggsOfDoom/Result.unity
+    guid: f43e913db5aa26c60accc9c9c85cac27
   m_configObjects: {}

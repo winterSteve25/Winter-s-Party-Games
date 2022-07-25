@@ -9,6 +9,7 @@ namespace Games.Base
     {
         public GameConstants.SceneIndices roomScene;
         public GameConstants.SceneIndices gameScene;
+        public GameConstants.SceneIndices endScene;
         public byte maximumPlayers = 0;
         public byte minimumPlayers = 0;
         public Sprite[] playerAvatars;

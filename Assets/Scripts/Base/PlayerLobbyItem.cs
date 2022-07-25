@@ -8,6 +8,8 @@ namespace Base
     {
         public PlayerLobbyItemData data;
 
+        [SerializeField] private RectTransform crownSpot;
+
         private void Start()
         {
             if (LobbyData.Instance == null)
@@ -21,7 +23,17 @@ namespace Base
         {
             if (data == null) return;
             GetComponentInChildren<TextMeshProUGUI>().text = data.nickname;
-            GetComponent<Image>().sprite = LobbyData.Instance.gameMode.playerAvatars[data.avatarIndex];
+            GetComponentInChildren<Image>().sprite = LobbyData.Instance.gameMode.playerAvatars[data.avatarIndex];
         }
+
+        public Vector3 GetCrownLocation()
+        {
+            return crownSpot.position;
+        }
+
+        public Quaternion GetCrownRotation()
+        {
+            return crownSpot.rotation;
+        } 
     }
 }

@@ -1,5 +1,9 @@
+using System;
 using System.Collections;
 using System.Globalization;
+using Base;
+using DG.Tweening;
+using Games.Base;
 using Games.ScrambledEggs.Data;
 using Games.ScrambledEggs.Helpers;
 using Games.Utils;
@@ -7,6 +11,7 @@ using Photon.Pun;
 using Settings;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Utils;
 using Utils.Dictionary;
 
@@ -20,10 +25,16 @@ namespace Games.ScrambledEggs.Procedure
         [SerializeField] private TMP_InputField inputField;
         [SerializeField] private ScrambledEggsOfDoomSettings settings;
 
+        [SerializeField] private GameObject inputs;
+        [SerializeField] private GameObject waitingMessage;
+
+        [SerializeField] private SubmissionIndicator submissionIndicator;
+        
         private bool _submitted;
 
         private void Awake()
         {
+            PhotonNetwork.IsMessageQueueRunning = true;
             var localPlayer = PhotonNetwork.LocalPlayer;
             
             switch (stage)
@@ -53,6 +64,11 @@ namespace Games.ScrambledEggs.Procedure
             timer.StartTimer();
         }
 
+        private void Start()
+        {
+            waitingMessage.SetActive(false);
+        }
+
         private void OnEnable()
         {
             timer.onComplete.AddListener(TimerComplete);
@@ -66,6 +82,10 @@ namespace Games.ScrambledEggs.Procedure
         public void SubmitWord()
         {
             if (_submitted) return;
+            
+            inputs.SetActive(false);
+            waitingMessage.SetActive(true);
+            
             // if input is empty and it is stage 1, 3 or 4 we get a random noun, if its stage 2 get random adjective
             // if input is not null we make it Title Case
             var input = string.IsNullOrEmpty(inputField.text) ? stage == 2 ? WordDictionary.GetRandomAdjective() : WordDictionary.GetRandomNoun() : CultureInfo.CurrentCulture.TextInfo.ToTitleCase(inputField.text);
@@ -85,16 +105,27 @@ namespace Games.ScrambledEggs.Procedure
         [PunRPC]
         private void SubmitRPC(int stage1, int actorID, string content)
         {
+            // add submission
             GlobalData.Read<GameData>(GameConstants.GlobalData.ScrambledEggsGameData)
                 .GetSimpleTasks(stage1)
                 .Add(new Submission<string>(actorID, content));
 
             _dataReceived++;
+
+            submissionIndicator.Submit(actorID).OnComplete(() =>
+            {
+                // if all players has submitted stop waiting for the timer
+                if (_dataReceived == PhotonNetwork.CurrentRoom.PlayerCount)
+                {
+                    TimerComplete();
+                }
+            });
         }
 
         private IEnumerator Next()
         {
-            yield return new WaitUntil(() => _dataReceived == PhotonNetwork.CurrentRoom.PlayerCount);
+            yield return new WaitUntil(() => _dataReceived >= PhotonNetwork.CurrentRoom.PlayerCount);
+            PhotonNetwork.IsMessageQueueRunning = false;
 
             switch (stage)
             {
