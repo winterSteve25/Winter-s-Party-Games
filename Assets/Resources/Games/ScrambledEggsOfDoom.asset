@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd7a91ae25d4f02bf303963dbdfc695, type: 3}
   m_Name: ScrambledEggsOfDoom
   m_EditorClassIdentifier: 
-  roomScene: 7
-  gameScene: 8
-  endScene: 14
+  roomScene: 8
+  gameScene: 9
+  endScene: 25
   maximumPlayers: 8
   minimumPlayers: 2
   playerAvatars:

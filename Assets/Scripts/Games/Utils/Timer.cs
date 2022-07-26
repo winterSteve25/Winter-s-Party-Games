@@ -11,6 +11,7 @@ namespace Games.Utils
         
         public int timeLimit;
         public UnityEvent onComplete;
+        public bool IsComplete { get; private set; }
         
         private float _internalCounter;
         private bool _started;
@@ -31,6 +32,7 @@ namespace Games.Utils
             if (_internalCounter <= 0)
             {
                 _started = false;
+                IsComplete = true;
                 onComplete.Invoke();
                 return;
             }

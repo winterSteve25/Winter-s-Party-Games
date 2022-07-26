@@ -1,5 +1,6 @@
 using ExitGames.Client.Photon;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
 
 namespace Games.Base
@@ -9,7 +10,7 @@ namespace Games.Base
     {
         public GameConstants.SceneIndices roomScene;
         public GameConstants.SceneIndices gameScene;
-        public GameConstants.SceneIndices endScene;
+        public GameConstants.SceneIndices voteResultScene;
         public byte maximumPlayers = 0;
         public byte minimumPlayers = 0;
         public Sprite[] playerAvatars;

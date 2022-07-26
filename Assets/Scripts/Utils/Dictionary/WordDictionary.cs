@@ -43,6 +43,22 @@ namespace Utils.Dictionary
             return GetRandomWordInFile("Nouns");
         }
 
+        public static string GetRandomVerb()
+        {
+            return GetRandomWordInFile("Verbs");
+        }
+        
+        public static string GetRandom(PartOfSpeech partOfSpeech)
+        {
+            return partOfSpeech switch
+            {
+                PartOfSpeech.Noun => GetRandomNoun(),
+                PartOfSpeech.Adjective => GetRandomAdjective(),
+                PartOfSpeech.Verb => GetRandomVerb(),
+                _ => throw new ArgumentOutOfRangeException(nameof(partOfSpeech), partOfSpeech, null)
+            };
+        }
+
         private static string GetRandomWordInFile(string fileName)
         {
             var text = Resources.Load<TextAsset>("Data/" + fileName);

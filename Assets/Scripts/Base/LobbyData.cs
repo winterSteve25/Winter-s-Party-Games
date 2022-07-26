@@ -12,7 +12,7 @@ namespace Base
         /// Always available in a game lobby (through out the game too. Destroyed when exiting game
         /// </summary>
         public static LobbyData Instance;
-        
+
         public PartyGame gameMode;
 
         [NonSerialized] public List<PlayerLobbyItemData> Players;
@@ -20,15 +20,15 @@ namespace Base
 
         private void Awake()
         {
-            if (Instance == null)
+            if (Instance != null)
             {
-                Instance = this;
-                IsHost = GlobalData.ExistAnd<bool>(GameConstants.GlobalData.IsHost, isHost => isHost);
-                DontDestroyOnLoad(gameObject);
-                return;
+                Destroy(Instance.gameObject);
+                Instance = null;
             }
-
-            Destroy(gameObject);
+            
+            Instance = this;
+            IsHost = GlobalData.ExistAnd<bool>(GameConstants.GlobalData.IsHost, isHost => isHost);
+            DontDestroyOnLoad(gameObject);
         }
     }
 }

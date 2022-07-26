@@ -1,6 +1,5 @@
 using System;
 using ExitGames.Client.Photon;
-using Games.ScrambledEggs.Helpers;
 using Games.Utils.Paint;
 using UnityEngine;
 

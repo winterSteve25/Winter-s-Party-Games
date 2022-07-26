@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Base;
@@ -12,6 +13,8 @@ namespace Games.Base
 {
     public class VoteManager : MonoBehaviour
     {
+        public static event Action VoteEnded;
+        
         [SerializeField] private int allowedVotesPerPerson;
         [SerializeField] private Timer timer;
         [SerializeField] private ScrambledEggsOfDoomSettings settings;
@@ -46,9 +49,10 @@ namespace Games.Base
         private void EndVote()
         {
             _ended = true;
-            GlobalData.Set(GameConstants.GlobalData.ScrambledEggsVoteResult, _votes);
+            GlobalData.Set(GameConstants.GlobalData.LatestVoteResult, _votes);
+            VoteEnded?.Invoke();
             PhotonNetwork.IsMessageQueueRunning = false;
-            SceneTransition.TransitionToScene(LobbyData.Instance.gameMode.endScene);
+            SceneTransition.TransitionToScene(LobbyData.Instance.gameMode.voteResultScene);
         }
 
         public void Vote(int voter, int votedForIndex, Vector2 voteOptionIndicatorPosition, Quaternion voteOptionIndicatorRotation)

@@ -918,7 +918,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2332513533280463651, guid: ab78b7e2a9d9ca4f2aa8d05bc43f5654, type: 3}
       propertyPath: toScene
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2332513533280463655, guid: ab78b7e2a9d9ca4f2aa8d05bc43f5654, type: 3}
       propertyPath: m_Pivot.x
@@ -1195,7 +1195,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lastly... Voting results!
+  m_text: Annnnnd Voting results!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a2f2583823ed6b629ac482fa7e536f0, type: 2}
   m_sharedMaterial: {fileID: -2150082456775160328, guid: 0a2f2583823ed6b629ac482fa7e536f0, type: 2}
@@ -1490,6 +1490,7 @@ MonoBehaviour:
   row: {fileID: 1569965823}
   backButton: {fileID: 1101141268}
   tieMessage: {fileID: 1083603238}
+  readSubmissionsFromIndex: 0
 --- !u!1001 &2067228777
 PrefabInstance:
   m_ObjectHideFlags: 0

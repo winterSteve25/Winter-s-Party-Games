@@ -223,7 +223,7 @@ namespace FreeDraw
             int array_pos = y * (int)drawable_sprite.rect.width + x;
 
             // Check if this is a valid position
-            if (array_pos > cur_colors.Length || array_pos < 0)
+            if (array_pos >= cur_colors.Length || array_pos < 0)
                 return;
 
             cur_colors[array_pos] = color;

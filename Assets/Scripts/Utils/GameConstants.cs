@@ -15,20 +15,30 @@ namespace Utils
         {
             ConnectingToServer = 0,
             MainMenu = 1,
-            CreateOrJoinRoom = 2,
-            CreateRoom = 3,
-            JoinRoom = 4,
-            JoiningRoomViaSteam = 5,
-            JoiningRoom = 6,
-            ScrambledEggsOfDoomLobby = 7,
-            ScrambledEggsOfDoomStage1 = 8,
-            ScrambledEggsOfDoomStage2 = 9,
-            ScrambledEggsOfDoomStage3 = 10,
-            ScrambledEggsOfDoomStage4 = 11,
-            ScrambledEggsOfDoomStage5 = 12,
-            ScrambledEggsOfDoomVoting = 13,
-            ScrambledEggsOfDoomResult = 14,
-            Preferences = 15,
+            Preferences = 2,
+            CreateOrJoinRoom = 3,
+            CreateRoom = 4,
+            JoinRoom = 5,
+            JoiningRoomViaSteam = 6,
+            JoiningRoom = 7,
+            ScrambledEggsOfDoomLobby = 8,
+            ScrambledEggsOfDoomR1S1 = 9,
+            ScrambledEggsOfDoomR1S2 = 10,
+            ScrambledEggsOfDoomR1S3 = 11,
+            ScrambledEggsOfDoomR1S1B = 12,
+            ScrambledEggsOfDoomR2S4 = 13,
+            ScrambledEggsOfDoomR2S5 = 14,
+            ScrambledEggsOfDoomR2S6 = 15,
+            ScrambledEggsOfDoomR2S7 = 16,
+            ScrambledEggsOfDoomR2S2B = 17,
+            ScrambledEggsOfDoomR3S8 = 18,
+            ScrambledEggsOfDoomR3S9 = 19,
+            ScrambledEggsOfDoomR3S10 = 20,
+            ScrambledEggsOfDoomR3S11 = 21,
+            ScrambledEggsOfDoomR3S12 = 22,
+            ScrambledEggsOfDoomR3S3B = 23,
+            ScrambledEggsOfDoomVoting = 24,
+            ScrambledEggsOfDoomResult = 25,
         }
 
         public static class CustomRoomProperties
@@ -53,8 +63,8 @@ namespace Utils
             public const string SteamLobbyIDToJoin = "SteamLobbyIDToJoin";
             public const string RoomIDToJoin = "RoomIDToJoin";
             
-            public const string ScrambledEggsGameData = "ScrambledEggsGameData";
-            public const string ScrambledEggsVoteResult = "ScrambledEggsVoteResult";
+            public const string LatestGameData = "GameData";
+            public const string LatestVoteResult = "VoteResult";
         }
 
         public static class Flags
