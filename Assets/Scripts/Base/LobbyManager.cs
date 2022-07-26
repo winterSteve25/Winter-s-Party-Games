@@ -167,10 +167,12 @@ namespace Base
         [PunRPC]
         private void JoinGame(int actorId, int chosenAvatar)
         {
-            SoundManager.Play(GameConstants.Sounds.PlayerJoinLobby);
             var data = new PlayerLobbyItemData(PhotonNetwork.CurrentRoom.GetPlayer(actorId), chosenAvatar);
-            AddPlayerToNextAvailableSlot(data);
+            // if this player already exist in the list of players this is a false notification, we skip it.
+            if (LobbyData.Instance.Players.Any(datas => datas.actorID == actorId)) return;
+            SoundManager.Play(GameConstants.Sounds.PlayerJoinLobby);
             LobbyData.Instance.Players.Add(data);
+            AddPlayerToNextAvailableSlot(data);
             CheckObjectsAvailability();
         }
 

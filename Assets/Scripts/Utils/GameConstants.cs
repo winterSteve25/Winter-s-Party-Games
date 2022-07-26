@@ -5,6 +5,10 @@ namespace Utils
         public static class PlayerPrefs
         {
             public const string Username = "Username";
+            public const string MasterVolume = "MasterVolume";
+            public const string MusicVolume = "MusicVolume";
+            public const string UIVolume = "UIVolume";
+            public const string SFXVolume = "SFXVolume";
         }
 
         public enum SceneIndices
@@ -24,6 +28,7 @@ namespace Utils
             ScrambledEggsOfDoomStage5 = 12,
             ScrambledEggsOfDoomVoting = 13,
             ScrambledEggsOfDoomResult = 14,
+            Preferences = 15,
         }
 
         public static class CustomRoomProperties
@@ -59,7 +64,7 @@ namespace Utils
 
         public enum Sounds
         {
-            ButtonHover,
+            SelectableHover,
             PlayerJoinLobby,
             PlayerLeaveLobby,
             SceneTransition,

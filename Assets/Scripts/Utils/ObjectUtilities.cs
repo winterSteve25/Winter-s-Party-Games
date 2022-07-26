@@ -22,12 +22,14 @@ namespace Utils
         {
             canvasGroup.DOFade(0, duration);
             yield return new WaitForSeconds(duration);
+            if (canvasGroup is null) yield break;
             canvasGroup.gameObject.SetActive(false);
             onFinished?.Invoke();
         }
 
         public static IEnumerator FadeIn(CanvasGroup canvasGroup, float duration, [CanBeNull] Action onFinished)
         {
+            if (canvasGroup is null) yield break;
             canvasGroup.gameObject.SetActive(true);
             canvasGroup.DOFade(1, duration);
             yield return new WaitForSeconds(duration);

@@ -12,6 +12,7 @@ namespace Menu
         public void ConfirmUsernameButtonClicked()
         {
             var localPlayerNickName = inputField.text.Replace("\r", "");
+            inputField.text = string.Empty;
             PhotonNetwork.LocalPlayer.NickName = localPlayerNickName;
             PlayerPrefs.SetString(GameConstants.PlayerPrefs.Username, localPlayerNickName);
             PlayerPrefs.Save();

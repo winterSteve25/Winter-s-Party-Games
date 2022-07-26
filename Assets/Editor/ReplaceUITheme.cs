@@ -31,7 +31,7 @@ namespace Editor
             
             foreach (var btn in buttons)
             {
-                btn.gameObject.AddComponent<ButtonAnimator>();
+                btn.gameObject.AddComponent<SelectableAnimator>();
 
                 var colorBlock = btn.colors;
                 colorBlock.disabledColor = Color.clear;

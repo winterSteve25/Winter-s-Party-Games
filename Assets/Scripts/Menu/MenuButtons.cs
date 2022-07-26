@@ -12,6 +12,7 @@ namespace Menu
 
         public void PreferencesButtonClicked()
         {
+            SceneTransition.TransitionToScene(GameConstants.SceneIndices.Preferences);
         }
 
         public void QuitButtonClicked()

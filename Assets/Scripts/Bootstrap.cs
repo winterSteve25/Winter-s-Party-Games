@@ -10,21 +10,10 @@ public static class Bootstrap
     private static void Run()
     {
         Debug.Log("Registering custom types in PhotonPeer");
-        PhotonPeer.RegisterType(typeof(Color), 254, SerializeColor, DeserializeColor);
         PhotonPeer.RegisterType(typeof(Vector2), 253, SerializeVector2, DeserializeVector2);
         PhotonPeer.RegisterType(typeof(Quaternion), 252, SerializeQuaternion, DeserializeQuaternion);
     }
-
-    private static object DeserializeColor(byte[] data)
-    {
-        return ColorPaletteExtension.GetColorFromCode(data[0]);
-    }
-
-    private static byte[] SerializeColor(object color)
-    {
-        return new[] { ColorPaletteExtension.GetCodeFromColor((Color)color) };
-    }
-
+    
     private static object DeserializeVector2(byte[] data)
     {
         var floatArray2 = new float[data.Length / 4];

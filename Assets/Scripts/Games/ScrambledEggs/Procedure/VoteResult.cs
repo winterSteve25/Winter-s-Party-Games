@@ -70,7 +70,10 @@ namespace Games.ScrambledEggs.Procedure
 
         private void OnDestroy()
         {
-            Destroy(LobbyData.Instance.gameObject);
+            if (LobbyData.Instance is not null)
+            {
+                Destroy(LobbyData.Instance.gameObject);
+            }
         }
     }
 }

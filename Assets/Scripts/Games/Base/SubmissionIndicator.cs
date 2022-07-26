@@ -23,6 +23,7 @@ namespace Games.Base
             {
                 var go = Instantiate(slotPrefab, transform);
                 go.GetComponentInChildren<Image>().color = new Color(0.4f, 0.4f, 0.4f);
+                go.GetComponent<RectTransform>().localScale = new Vector3(0.6f, 0.6f, 0.6f);
                 _slots[i] = go.GetComponent<PlayerLobbyItem>();
             }
             
@@ -41,7 +42,7 @@ namespace Games.Base
             var playerLobbyItem = _slots[data.slotTaken];
             playerLobbyItem.GetComponentInChildren<Image>().color = Color.white;
             var rectTransform = playerLobbyItem.GetComponent<RectTransform>();
-            return rectTransform.DOScale(1.5f, 0.2f).SetEase(Ease.OutBounce);
+            return rectTransform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce);
         }
     }
 }

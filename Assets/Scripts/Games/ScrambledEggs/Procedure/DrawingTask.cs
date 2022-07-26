@@ -41,9 +41,9 @@ namespace Games.ScrambledEggs.Procedure
             var stage2Submissions = data.GetSimpleTasks(2);
 
             sentence.text =
-                $"{SubmissionHelper.FindSubmission(stage2Submissions, localPlayer, WordDictionary.GetRandomAdjective()).SubmissionContent} " +
-                $"{SubmissionHelper.FindSubmission(stage3Submissions, localPlayer, WordDictionary.GetRandomNoun()).SubmissionContent} of " +
-                $"{SubmissionHelper.FindSubmission(stage4Submissions, localPlayer, WordDictionary.GetRandomNoun()).SubmissionContent}";
+                ($"{SubmissionHelper.FindSubmission(stage2Submissions, localPlayer, WordDictionary.GetRandomAdjective()).SubmissionContent} " +
+                 $"{SubmissionHelper.FindSubmission(stage3Submissions, localPlayer, WordDictionary.GetRandomNoun()).SubmissionContent} of " +
+                 $"{SubmissionHelper.FindSubmission(stage4Submissions, localPlayer, WordDictionary.GetRandomNoun()).SubmissionContent}").Replace("\r", "");
             timer.timeLimit = settings.timeLimitDrawing;
             timer.StartTimer();
         }
@@ -76,7 +76,7 @@ namespace Games.ScrambledEggs.Procedure
 
             var texture = drawing.drawable_texture;
             PhotonView.Get(this).RPC(nameof(SubmitRPC), RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber,
-                texture.width, texture.height, texture.GetPixels(), sentence.text);
+                texture.width, texture.height, DataUtilities.SerializeTexture2D(texture), sentence.text);
             _submitted = true;
         }
 
@@ -90,10 +90,10 @@ namespace Games.ScrambledEggs.Procedure
         private bool _receivedAll;
 
         [PunRPC]
-        private void SubmitRPC(int actorID, int width, int height, Color[] content, string context)
+        private void SubmitRPC(int actorID, int width, int height, byte[] content, string context)
         {
             var texture = new Texture2D(width, height);
-            texture.SetPixels(content);
+            texture.SetPixels(DataUtilities.DeserializeTexture2DPixels(content));
             texture.Apply();
 
             GlobalData.Read<GameData>(GameConstants.GlobalData.ScrambledEggsGameData).Stage5Submissions

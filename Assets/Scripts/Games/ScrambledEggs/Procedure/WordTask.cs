@@ -43,19 +43,24 @@ namespace Games.ScrambledEggs.Procedure
             {
                 case 1:
                     GlobalData.Set(GameConstants.GlobalData.ScrambledEggsGameData, new GameData());
-                    word.text = WordDictionary.GetRandomAdjective();
+                    word.text = WordDictionary.GetRandomAdjective().Replace("\r", "");
                     break;
                 case >= 2 and < 4:
                     // sort all the submissions from the last stage by actor ids
                     var botSubmission = stage - 1 == 2 ? WordDictionary.GetRandomAdjective() : WordDictionary.GetRandomNoun();
                     var data = GlobalData.Read<GameData>(GameConstants.GlobalData.ScrambledEggsGameData).GetSimpleTasks(stage - 1);
-                    word.text = SubmissionHelper.FindSubmission(data, localPlayer, botSubmission).SubmissionContent;
+                    word.text = SubmissionHelper.FindSubmission(data, localPlayer, botSubmission).SubmissionContent.Replace("\r", "");
                     break;
                 case 4:
                     // sort all the submissions from the last 2 stages by actor ids
                     var stage3Submissions = GlobalData.Read<GameData>(GameConstants.GlobalData.ScrambledEggsGameData).GetSimpleTasks(3);
                     var stage2Submissions = GlobalData.Read<GameData>(GameConstants.GlobalData.ScrambledEggsGameData).GetSimpleTasks(2);
-                    word.text = SubmissionHelper.FindSubmission(stage2Submissions, localPlayer, WordDictionary.GetRandomAdjective()).SubmissionContent + " " + SubmissionHelper.FindSubmission(stage3Submissions, localPlayer, WordDictionary.GetRandomNoun()).SubmissionContent + " of ...";
+                    word.text =
+                        (SubmissionHelper
+                            .FindSubmission(stage2Submissions, localPlayer, WordDictionary.GetRandomAdjective())
+                            .SubmissionContent + " " +
+                        SubmissionHelper.FindSubmission(stage3Submissions, localPlayer, WordDictionary.GetRandomNoun())
+                            .SubmissionContent + " of ...").Replace("\r", "");
                     break;
                 default:
                     word.text = word.text;
@@ -119,6 +124,7 @@ namespace Games.ScrambledEggs.Procedure
                 if (_yes)
                 {
                     input = stage == 2 ? WordDictionary.GetRandomAdjective() : WordDictionary.GetRandomNoun();
+                    input = input.Replace("\r", "");
                 }
                 else
                 {
@@ -142,7 +148,7 @@ namespace Games.ScrambledEggs.Procedure
             _submitted = true;
             
             // submit input to other all players
-            PhotonView.Get(this).RPC(nameof(SubmitRPC), RpcTarget.All, stage, PhotonNetwork.LocalPlayer.ActorNumber, input.Replace("\r", ""));
+            PhotonView.Get(this).RPC(nameof(SubmitRPC), RpcTarget.All, stage, PhotonNetwork.LocalPlayer.ActorNumber, input);
         }
 
         public void YesToEmpty()
@@ -171,7 +177,7 @@ namespace Games.ScrambledEggs.Procedure
             // add submission
             GlobalData.Read<GameData>(GameConstants.GlobalData.ScrambledEggsGameData)
                 .GetSimpleTasks(stage1)
-                .Add(new Submission<string>(actorID, content));
+                .Add(new Submission<string>(actorID, content.Replace("\r", "")));
 
             _dataReceived++;
 
