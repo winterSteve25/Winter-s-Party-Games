@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomScene: 8
   gameScene: 9
-  endScene: 25
+  voteResultScene: 25
   maximumPlayers: 8
   minimumPlayers: 2
   playerAvatars:

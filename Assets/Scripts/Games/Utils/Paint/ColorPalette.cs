@@ -74,9 +74,9 @@ namespace Games.Utils.Paint
 
         private static bool CompareColors(Color a, Color b)
         {
-            if (!(Math.Abs(a.r - b.r) < 1)) return false;
-            if (!(Math.Abs(a.g - b.g) < 1)) return false;
-            return Math.Abs(a.b - b.b) < 1;
+            if (!(Math.Abs(a.r - b.r) < 0.2)) return false;
+            if (!(Math.Abs(a.g - b.g) < 0.2)) return false;
+            return Math.Abs(a.b - b.b) < 0.2;
         }
     }
 }
