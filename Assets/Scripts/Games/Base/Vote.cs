@@ -39,31 +39,14 @@ namespace Games.Base
                 }
             }
 
-            ties = new List<int>();
-            var highest = (-1, 0);
+            var sorted = (from entry in voteCounts orderby entry.Value descending select entry).ToList();
 
-            foreach (var (k, v) in voteCounts)
-            {
-                if (highest.Item1 == -1)
-                {
-                    highest = (k, v);
-                    continue;
-                }
+            var mostVoted = sorted.First().Key;
+            var mostVotes = sorted.First().Value;
 
-                if (v == highest.Item2)
-                {
-                    ties.Add(v);
-                    continue;
-                }
+            ties = sorted.Where((kv, index) => index != 0 && kv.Value == mostVotes).Select(kv => kv.Value).ToList();
 
-                if (v > highest.Item2)
-                {
-                    ties.Clear();
-                    highest = (k, v);
-                }
-            }
-
-            return highest.Item1;
+            return mostVoted;
         }
     }
 }
