@@ -1,6 +1,6 @@
+using Base;
 using ExitGames.Client.Photon;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utils;
 
 namespace Games.Base
@@ -13,7 +13,7 @@ namespace Games.Base
         public GameConstants.SceneIndices voteResultScene;
         public byte maximumPlayers = 0;
         public byte minimumPlayers = 0;
-        public Sprite[] playerAvatars;
+        public PlayerLobbySprite[] playerAvatars;
         
         public Hashtable CustomRoomProperties => new() { { GameConstants.CustomRoomProperties.Scene, roomScene } };
     }

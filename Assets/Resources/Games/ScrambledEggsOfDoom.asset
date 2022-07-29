@@ -18,16 +18,42 @@ MonoBehaviour:
   maximumPlayers: 8
   minimumPlayers: 2
   playerAvatars:
-  - {fileID: 619223149, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-  - {fileID: -1299122390, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-  - {fileID: -600867422, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-  - {fileID: -1786844175, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-  - {fileID: 255302756, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-  - {fileID: -1742015725, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-  - {fileID: 1751039737, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-  - {fileID: -2062958965, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-  - {fileID: -1796945640, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-  - {fileID: -974324777, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-  - {fileID: 149490857, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-  - {fileID: -201350330, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-  - {fileID: -1848733633, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 7482322589216929537, guid: e24c9a1a4fb8a7f45bf6ac000b47ec8f, type: 3}
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 5522183902407850147, guid: 736cfbc1aa82a4f44800507aed51fe1a, type: 3}
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 3226765396728414341, guid: 75433554313639845880ecdd0398e73e, type: 3}
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 4546435984887356586, guid: 363ba562eaf0ab34e8a242fcc39fb3a9, type: 3}
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 4269837188588516451, guid: 5cfc4e27acf5ffa4e8acd372e005f5e9, type: 3}
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 564660651871660406, guid: 7e657be82e059cd4fab722425109b320, type: 3}
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 8109552845080039879, guid: d4fa6dbffce76d14e9e8d0125f41a08b, type: 3}
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 3171483926963243647, guid: 579f1ddab810a25418b180b6a13e388b, type: 3}
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 1433602116043693599, guid: db148d9ce685ac348a3f357d37453baa, type: 3}
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 6713945884762889898, guid: cf8a9e44694c0c64c8589ffd5c664145, type: 3}
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 8133178734322347018, guid: 5789fdd104b713c4f929425e70d7572d, type: 3}
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 7464608448650086265, guid: 9f38cf9e63e10334a940839f33aaecc1, type: 3}
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 96953933307941505, guid: 666b7562ea8286a4c9a73ecbcde9f679, type: 3}

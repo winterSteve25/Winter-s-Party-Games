@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 366491343272398468}
   - component: {fileID: 366491343272398470}
   - component: {fileID: 366491343272398465}
+  - component: {fileID: 6059504978255866174}
   m_Layer: 5
   m_Name: PlayerLobbyItem
   m_TagString: Untagged
@@ -226,6 +227,26 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &6059504978255866174
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366491343272398469}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &558874310662084730
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,7 +259,7 @@ GameObject:
   - component: {fileID: 3000591498880416340}
   - component: {fileID: 4877225607182629885}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
