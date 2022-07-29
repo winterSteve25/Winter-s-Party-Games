@@ -4,7 +4,7 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
-namespace Games.Base
+namespace Games.Base.Votes
 {
     public class VoteIndicator : MonoBehaviour
     {

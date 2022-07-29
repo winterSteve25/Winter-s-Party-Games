@@ -39,6 +39,8 @@ namespace Utils
             ScrambledEggsOfDoomR3S3B = 23,
             ScrambledEggsOfDoomVoting = 24,
             ScrambledEggsOfDoomResult = 25,
+            ScrambledEggsOfDoomScoreboard = 26,
+            ScrambledEggsOfDoomWinner = 27,
         }
 
         public static class CustomRoomProperties
@@ -48,8 +50,9 @@ namespace Utils
 
         public static class CustomPlayerProperties
         {
-            public const string AvatarIndex = "avi";
+            public const string AvatarIndex = "a";
             public const string IsHost = "h";
+            public const string Score = "sc";
         }
 
         public static class SteamworksLobbyData
@@ -65,6 +68,8 @@ namespace Utils
             
             public const string LatestGameData = "GameData";
             public const string LatestVoteResult = "VoteResult";
+            public const string PreviousScoring = "PreviousScores";
+            public const string LatestScoring = "LatestScores";
         }
 
         public static class Flags
@@ -79,7 +84,9 @@ namespace Utils
             PlayerLeaveLobby,
             SceneTransition,
             SceneTransitionFinish,
-            PopUp
+            PopUp,
+            Tune1,
+            Score
         }
 
         public enum SoundCategory

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Games.Base;
+using Games.Base.Submissions;
 
 namespace Games.ScrambledEggs.Data
 {

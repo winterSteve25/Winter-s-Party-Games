@@ -2,6 +2,7 @@ using System.Collections;
 using System.Globalization;
 using DG.Tweening;
 using Games.Base;
+using Games.Base.Submissions;
 using Games.ScrambledEggs.Data;
 using Games.Utils;
 using Photon.Pun;

@@ -5,7 +5,7 @@ using DG.Tweening.Plugins.Options;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Games.Base
+namespace Games.Base.Submissions
 {
     [RequireComponent(typeof(HorizontalLayoutGroup))]
     public class SubmissionIndicator : MonoBehaviour

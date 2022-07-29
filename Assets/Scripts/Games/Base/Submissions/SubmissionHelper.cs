@@ -3,7 +3,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using Utils;
 
-namespace Games.Base
+namespace Games.Base.Submissions
 {
     public static class SubmissionHelper
     {

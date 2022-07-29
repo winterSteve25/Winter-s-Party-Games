@@ -5336,7 +5336,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 755570304}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.077923305, y: 4.77, z: 0.05484024}
+  m_LocalPosition: {x: 0.077923305, y: 4.77, z: 10}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -5596,7 +5596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundMap:
-    m_keys: 000000000100000002000000030000000400000005000000
+    m_keys: 0000000001000000020000000300000004000000050000000600000007000000
     m_values:
     - clip: {fileID: 8300000, guid: 0994c12e202f342459a4212e7287f7e8, type: 3}
       volume: 1
@@ -5617,22 +5617,34 @@ MonoBehaviour:
       interrupt: 0
       loop: 0
     - clip: {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
-      volume: 1
+      volume: 0.5
       pitch: 1
       category: 2
       interrupt: 0
       loop: 0
     - clip: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
-      volume: 1
+      volume: 0.5
       pitch: 1
       category: 2
       interrupt: 0
       loop: 0
     - clip: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
-      volume: 1
+      volume: 0.5
       pitch: 1
       category: 1
       interrupt: 0
+      loop: 0
+    - clip: {fileID: 8300000, guid: ed3f14adcceaa9e60a5af13c27db6c26, type: 3}
+      volume: 0.5
+      pitch: 1
+      category: 0
+      interrupt: 1
+      loop: 1
+    - clip: {fileID: 8300000, guid: b43d102aac6b145468dcaa94a5cccae1, type: 3}
+      volume: 0.3
+      pitch: 2
+      category: 2
+      interrupt: 1
       loop: 0
   categoryMap:
     m_keys: 01000000020000000000000003000000

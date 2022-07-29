@@ -268,6 +268,10 @@ PrefabInstance:
       propertyPath: submitToIndex
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1891479848891572011, guid: 1dd28f6cd1628a70291a3cedba5ddf15, type: 3}
+      propertyPath: randomAnswerType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1891479849441682778, guid: 1dd28f6cd1628a70291a3cedba5ddf15, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -330,7 +334,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3190997060091770649, guid: 1dd28f6cd1628a70291a3cedba5ddf15, type: 3}
       propertyPath: promptStructure.Array.data[0].generateRandom
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3190997060091770649, guid: 1dd28f6cd1628a70291a3cedba5ddf15, type: 3}
       propertyPath: promptStructure.Array.data[0].submissionFromIndex

@@ -380,52 +380,6 @@ Canvas:
   m_SortingLayerID: 182362039
   m_SortingOrder: 5
   m_TargetDisplay: 0
---- !u!1 &1013115895
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1013115896}
-  - component: {fileID: 1013115897}
-  m_Layer: 0
-  m_Name: GameCreator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1013115896
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1013115895}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.46655273, y: -0.33590698, z: -9.963112}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1013115897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1013115895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f04916437476480f9e5bbb4e4f8f7745, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wordTasksCount: 12
-  drawingTasksCount: 3
 --- !u!1 &1244894351
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,7 +529,7 @@ Transform:
   m_Children:
   - {fileID: 948064435}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1333521868
 MonoBehaviour:
@@ -599,7 +553,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1891479848151340111, guid: 1dd28f6cd1628a70291a3cedba5ddf15, type: 3}
       propertyPath: m_text
-      value: Find an adjective that be used to describe
+      value: Find a noun that can be
       objectReference: {fileID: 0}
     - target: {fileID: 1891479848891572009, guid: 1dd28f6cd1628a70291a3cedba5ddf15, type: 3}
       propertyPath: sceneViewId
@@ -607,11 +561,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1891479848891572011, guid: 1dd28f6cd1628a70291a3cedba5ddf15, type: 3}
       propertyPath: transitionTo
-      value: 14
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 1891479848891572011, guid: 1dd28f6cd1628a70291a3cedba5ddf15, type: 3}
       propertyPath: submitToIndex
-      value: 0
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1891479848891572011, guid: 1dd28f6cd1628a70291a3cedba5ddf15, type: 3}
       propertyPath: randomAnswerType
@@ -671,11 +625,11 @@ PrefabInstance:
       objectReference: {fileID: 1244894354}
     - target: {fileID: 1891479849856154235, guid: 1dd28f6cd1628a70291a3cedba5ddf15, type: 3}
       propertyPath: m_text
-      value: 'Stage 1: Find an Adjective!'
+      value: 'Stage 1: Find a Noun!'
       objectReference: {fileID: 0}
     - target: {fileID: 3190997060091770649, guid: 1dd28f6cd1628a70291a3cedba5ddf15, type: 3}
       propertyPath: promptStructure.Array.data[0].generateRandom
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8915926589223891741, guid: 1dd28f6cd1628a70291a3cedba5ddf15, type: 3}
       propertyPath: m_AnchorMax.y

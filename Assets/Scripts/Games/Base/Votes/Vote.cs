@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Games.Base
+namespace Games.Base.Votes
 {
     public class Vote
     {
@@ -22,7 +22,7 @@ namespace Games.Base
 
     public static class VoteExtension
     {
-        public static int MostVoted(this IEnumerable<Vote> votes, out List<int> ties)
+        public static List<KeyValuePair<int, int>> SortByVoteCount(this IEnumerable<Vote> votes, out int tiesCount)
         {
             // keys are vote index, values are how many voted for
             var voteCounts = new Dictionary<int, int>();
@@ -40,13 +40,11 @@ namespace Games.Base
             }
 
             var sorted = (from entry in voteCounts orderby entry.Value descending select entry).ToList();
-
-            var mostVoted = sorted.First().Key;
             var mostVotes = sorted.First().Value;
-
-            ties = sorted.Where((kv, index) => index != 0 && kv.Value == mostVotes).Select(kv => kv.Value).ToList();
-
-            return mostVoted;
+            
+            tiesCount = sorted.Where((kv, index) => index != 0 && kv.Value == mostVotes).Count();
+            
+            return sorted;
         }
     }
 }

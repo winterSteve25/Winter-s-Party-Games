@@ -1,24 +1,27 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Base;
 using DG.Tweening;
 using Games.Utils;
+using Network;
 using Photon.Pun;
 using Settings;
 using UnityEngine;
 using Utils;
 
-namespace Games.Base
+namespace Games.Base.Votes
 {
     public class VoteManager : MonoBehaviour
     {
-        public static event Action VoteEnded;
+        public static event Action<List<Vote>> VoteEnded;
         
         [SerializeField] private int allowedVotesPerPerson;
         [SerializeField] private Timer timer;
         [SerializeField] private ScrambledEggsOfDoomSettings settings;
         [SerializeField] private VoteIndicator voteIndicator;
+
+        [SerializeField] private bool overrideTransitionScene;
+        [SerializeField] private GameConstants.SceneIndices overrideValue;
 
         private List<Vote> _votes;
         private bool _ended;
@@ -50,9 +53,11 @@ namespace Games.Base
         {
             _ended = true;
             GlobalData.Set(GameConstants.GlobalData.LatestVoteResult, _votes);
-            VoteEnded?.Invoke();
+            VoteEnded?.Invoke(_votes);
             PhotonNetwork.IsMessageQueueRunning = false;
-            SceneTransition.TransitionToScene(LobbyData.Instance.gameMode.voteResultScene);
+            SceneTransition.TransitionToScene(overrideTransitionScene
+                ? overrideValue
+                : LobbyData.Instance.gameMode.voteResultScene);
         }
 
         public void Vote(int voter, int votedForIndex, Vector2 voteOptionIndicatorPosition, Quaternion voteOptionIndicatorRotation)

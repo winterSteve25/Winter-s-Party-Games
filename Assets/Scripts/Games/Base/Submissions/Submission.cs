@@ -1,4 +1,4 @@
-namespace Games.Base
+namespace Games.Base.Submissions
 {
     public class Submission<T>
     {

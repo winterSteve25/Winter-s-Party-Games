@@ -1,4 +1,5 @@
 using Games.Base;
+using Games.Base.Votes;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
