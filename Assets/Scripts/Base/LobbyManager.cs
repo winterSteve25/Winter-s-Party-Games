@@ -124,12 +124,12 @@ namespace Base
                 RefreshCrown();
             }
 
-            photonView.RPC(nameof(JoinGame), RpcTarget.Others, PhotonNetwork.LocalPlayer.ActorNumber, SelfAvatarChoice);
+            photonView.RPC(nameof(JoinGame), RpcTarget.OthersBuffered, PhotonNetwork.LocalPlayer.ActorNumber, SelfAvatarChoice);
         }
 
         public virtual void StartGame()
         {
-            photonView.RPC(nameof(StartGameRPC), RpcTarget.All);
+            photonView.RPC(nameof(StartGameRPC), RpcTarget.AllBufferedViaServer);
         }
 
         protected virtual void CheckObjectsAvailability()

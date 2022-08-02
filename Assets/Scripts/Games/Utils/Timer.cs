@@ -1,43 +1,33 @@
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace Games.Utils
 {
-    public class Timer : MonoBehaviour
+    public class Timer
     {
-        [SerializeField]
-        private Slider progressBar;
-        
-        public int timeLimit;
-        public UnityEvent onComplete;
         public bool IsComplete { get; private set; }
+        public float Counter { get; private set; }
         
-        private float _internalCounter;
+        private int _timeLimit;
         private bool _started;
         
-        public void StartTimer()
+        public void StartTimer(int timeLimit)
         {
-            _internalCounter = timeLimit;
-            progressBar.maxValue = _internalCounter;
+            _timeLimit = timeLimit;
+            Counter = timeLimit;
             _started = true;
         }
 
-        private void Update()
+        public void Tick()
         {
             if (!_started) return;
             
-            _internalCounter -= Time.deltaTime;
+            Counter -= Time.deltaTime;
 
-            if (_internalCounter <= 0)
+            if (Counter <= 0)
             {
                 _started = false;
                 IsComplete = true;
-                onComplete.Invoke();
-                return;
             }
-            
-            progressBar.value = _internalCounter;
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using Games.Base.Votes;
 using Games.ScrambledEggs.Data;
@@ -26,11 +27,14 @@ namespace Games.ScrambledEggs.Procedure
             tieMessage.SetActive(false);
             yield return new WaitForSeconds(1f);
             var votes = GlobalData.Read<List<Vote>>(GameConstants.GlobalData.LatestVoteResult);
-            var indices = votes.SortByVoteCount(out var tiesCount);
+            var indices = votes.SortByVoteCount();
             var data = GlobalData.Read<ScrambledEggsGameData>(GameConstants.GlobalData.LatestGameData);
             var submissions = data.GetDrawingTask(data.GetRoundOn() - 1);
+
+            var mostVoted = indices.First();
+            var tops = indices.Where(kv => kv.Value == mostVoted.Value).ToArray();
             
-            foreach (var (index, voteCount) in indices)
+            foreach (var (index, voteCount) in tops)
             {
                 var showcase = Instantiate(prefab, row);
                 showcase.gameObject.SetActive(false);
@@ -43,7 +47,7 @@ namespace Games.ScrambledEggs.Procedure
                 component.DOScale(new Vector3(1, 1, 1), 1f);
             }
 
-            if (tiesCount != 0)
+            if (tops.Length > 1)
             {
                 tieMessage.SetActive(true);
                 tieMessage.GetComponent<CanvasGroup>().DOFade(1, 1f);

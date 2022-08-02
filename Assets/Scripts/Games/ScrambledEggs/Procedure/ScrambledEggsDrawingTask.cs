@@ -17,7 +17,7 @@ namespace Games.ScrambledEggs.Procedure
 {
     public class ScrambledEggsDrawingTask : MonoBehaviour
     {
-        [SerializeField] private Timer timer;
+        [SerializeField] private TimerBehaviour timer;
         [SerializeField] private ScrambledEggsOfDoomSettings settings;
         [SerializeField] private Drawable drawing;
         [SerializeField] private TextMeshProUGUI sentence;
@@ -65,7 +65,7 @@ namespace Games.ScrambledEggs.Procedure
             waitingMessage.SetActive(true);
 
             var texture = drawing.drawable_texture;
-            PhotonView.Get(this).RPC(nameof(SubmitRPC), RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber,
+            PhotonView.Get(this).RPC(nameof(SubmitRPC), RpcTarget.AllBufferedViaServer, PhotonNetwork.LocalPlayer.ActorNumber,
                 texture.width, texture.height, DataUtilities.SerializeTexture2D(texture), sentence.text);
             _submitted = true;
         }
@@ -90,7 +90,7 @@ namespace Games.ScrambledEggs.Procedure
                 .GetDrawingTask(submitToIndex)
                 .Add(new ScrambledEggsPaintingSubmission(actorID, texture, context));
 
-            PhotonView.Get(this).RPC(nameof(DataReceived), RpcTarget.All, actorID,
+            PhotonView.Get(this).RPC(nameof(DataReceived), RpcTarget.AllBufferedViaServer, actorID,
                 PhotonNetwork.LocalPlayer.ActorNumber);
         }
 

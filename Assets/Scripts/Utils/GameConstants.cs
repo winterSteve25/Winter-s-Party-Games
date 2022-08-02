@@ -52,7 +52,7 @@ namespace Utils
         {
             public const string AvatarIndex = "a";
             public const string IsHost = "h";
-            public const string Score = "sc";
+            public const string Loaded = "l";
         }
 
         public static class SteamworksLobbyData

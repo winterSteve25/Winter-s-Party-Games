@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Base;
 using DG.Tweening;
 using Games.Utils;
@@ -14,9 +15,9 @@ namespace Games.Base.Votes
     public class VoteManager : MonoBehaviour
     {
         public static event Action<List<Vote>> VoteEnded;
-        
+
         [SerializeField] private int allowedVotesPerPerson;
-        [SerializeField] private Timer timer;
+        [SerializeField] private TimerBehaviour timer;
         [SerializeField] private ScrambledEggsOfDoomSettings settings;
         [SerializeField] private VoteIndicator voteIndicator;
 
@@ -37,6 +38,7 @@ namespace Games.Base.Votes
         private void Start()
         {
             _votes = new List<Vote>();
+            PlayerData.Set(PhotonNetwork.LocalPlayer, GameConstants.CustomPlayerProperties.Loaded, true);
         }
 
         private void OnEnable()
@@ -55,31 +57,32 @@ namespace Games.Base.Votes
             GlobalData.Set(GameConstants.GlobalData.LatestVoteResult, _votes);
             VoteEnded?.Invoke(_votes);
             PhotonNetwork.IsMessageQueueRunning = false;
+            PlayerData.Set(PhotonNetwork.LocalPlayer, GameConstants.CustomPlayerProperties.Loaded, false);
             SceneTransition.TransitionToScene(overrideTransitionScene
                 ? overrideValue
                 : LobbyData.Instance.gameMode.voteResultScene);
         }
 
-        public void Vote(int voter, int votedForIndex, Vector2 voteOptionIndicatorPosition, Quaternion voteOptionIndicatorRotation)
+        public void Vote(int voter, int votedForIndex, Vector2 voteOptionIndicatorPosition,
+            Quaternion voteOptionIndicatorRotation)
         {
             if (_selfVotedCounts >= allowedVotesPerPerson) return;
             _selfVotedCounts++;
-            PhotonView.Get(this).RPC(nameof(VoteRPC), RpcTarget.All, voter, votedForIndex, voteOptionIndicatorPosition, voteOptionIndicatorRotation);
+            PhotonView.Get(this).RPC(nameof(VoteRPC), RpcTarget.AllBufferedViaServer, voter, votedForIndex, voteOptionIndicatorPosition, voteOptionIndicatorRotation);
         }
-
+        
         private int _dataReceived;
 
         [PunRPC]
         private void VoteRPC(int voter, int votedForIndex, Vector2 voteOptionIndicatorPosition, Quaternion voteOptionIndicatorRotation)
         {
             if (_ended) return;
-            _votes.Add(new Vote(voter, votedForIndex));
-            
             _dataReceived++;
-            
-            voteIndicator.Vote(voter, voteOptionIndicatorPosition, voteOptionIndicatorRotation).OnComplete(() =>
+            _votes.Add(new Vote(voter, votedForIndex));
+            var tweener = voteIndicator.Vote(voter, voteOptionIndicatorPosition, voteOptionIndicatorRotation);
+            tweener.OnComplete(() =>
             {
-                if (_dataReceived == PhotonNetwork.CurrentRoom.PlayerCount)
+                if (_dataReceived >= PhotonNetwork.CurrentRoom.PlayerCount)
                 {
                     EndVote();
                 }

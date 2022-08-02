@@ -1,18 +1,23 @@
+#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
+#define DISABLESTEAMWORKS
+#endif
+
 using System;
 using System.Collections;
+using Network;
 using Photon.Pun;
-using Steamworks;
 using TMPro;
 using UnityEngine;
 using Utils;
 
-namespace Network.Steam
+namespace Steamworks.NET
 {
     public class SteamLobbyJoiner : MonoBehaviourPunCallbacks
     {
+#if !DISABLESTEAMWORKS
         [SerializeField] private TextMeshProUGUI text;
         [SerializeField] private GameObject backButton;
-        
+
         private Callback<LobbyEnter_t> _lobbyEntered;
         private Callback<LobbyDataUpdate_t> _lobbyDataUpdated;
 
@@ -48,10 +53,10 @@ namespace Network.Steam
             {
                 _success = true;
             }
-            
+
             _gotData = true;
         }
-        
+
         private IEnumerator JoinRoom(CSteamID lobbyID)
         {
             text.text = "Fetching Data...";
@@ -59,7 +64,7 @@ namespace Network.Steam
             yield return new WaitUntil(() => _gotData);
 
             var tries = 0;
-            
+
             while (_error && tries < 3)
             {
                 _gotData = false;
@@ -71,7 +76,8 @@ namespace Network.Steam
             if (_success)
             {
                 text.text = "Joining...";
-                PhotonNetwork.JoinRoom(SteamMatchmaking.GetLobbyData(lobbyID, GameConstants.SteamworksLobbyData.PhotonRoom));
+                PhotonNetwork.JoinRoom(SteamMatchmaking.GetLobbyData(lobbyID,
+                    GameConstants.SteamworksLobbyData.PhotonRoom));
             }
             else
             {
@@ -84,13 +90,15 @@ namespace Network.Steam
         public override void OnJoinedRoom()
         {
             PhotonNetwork.IsMessageQueueRunning = false;
-            SceneTransition.TransitionToScene(RoomData.Read<GameConstants.SceneIndices>(GameConstants.CustomRoomProperties.Scene));
+            SceneTransition.TransitionToScene(
+                RoomData.Read<GameConstants.SceneIndices>(GameConstants.CustomRoomProperties.Scene));
         }
-        
+
         public override void OnJoinRoomFailed(short returnCode, string message)
         {
             backButton.SetActive(true);
             text.text = "Failed to join room.\nReason: " + message;
         }
+#endif
     }
 }

@@ -11,6 +11,7 @@ namespace Menu
         
         public void ConfirmUsernameButtonClicked()
         {
+            if (string.IsNullOrEmpty(inputField.text)) return;
             var localPlayerNickName = inputField.text.Replace("\r", "");
             inputField.text = string.Empty;
             PhotonNetwork.LocalPlayer.NickName = localPlayerNickName;

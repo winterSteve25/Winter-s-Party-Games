@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Games.Base.Votes
 {
@@ -20,9 +21,21 @@ namespace Games.Base.Votes
         }
     }
 
+    public class CachedVote : Vote
+    {
+        public readonly Vector2 VoteOptionIndicatorPosition;
+        public readonly Quaternion VoteOptionIndicatorRotation;
+        
+        public CachedVote(int voter, int votedForIndex, Vector2 voteOptionIndicatorPosition, Quaternion voteOptionIndicatorRotation) : base(voter, votedForIndex)
+        {
+            VoteOptionIndicatorPosition = voteOptionIndicatorPosition;
+            VoteOptionIndicatorRotation = voteOptionIndicatorRotation;
+        }
+    }
+
     public static class VoteExtension
     {
-        public static List<KeyValuePair<int, int>> SortByVoteCount(this IEnumerable<Vote> votes, out int tiesCount)
+        public static List<KeyValuePair<int, int>> SortByVoteCount(this IEnumerable<Vote> votes)
         {
             // keys are vote index, values are how many voted for
             var voteCounts = new Dictionary<int, int>();
@@ -39,12 +52,7 @@ namespace Games.Base.Votes
                 }
             }
 
-            var sorted = (from entry in voteCounts orderby entry.Value descending select entry).ToList();
-            var mostVotes = sorted.First().Value;
-            
-            tiesCount = sorted.Where((kv, index) => index != 0 && kv.Value == mostVotes).Count();
-            
-            return sorted;
+            return (from entry in voteCounts orderby entry.Value descending select entry).ToList();
         }
     }
 }

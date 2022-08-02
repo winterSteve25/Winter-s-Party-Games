@@ -41,7 +41,7 @@ namespace Games.Base.Scoreboard
 
                 var score = previousScoring[id];
                 var scoreboardItem = go.GetComponent<ScoreboardItem>();
-                
+
                 scoreboardItem.SetAmount(score);
                 scoreboardItem.player.data = player;
                 scoreboardItem.player.UpdateAppearance();

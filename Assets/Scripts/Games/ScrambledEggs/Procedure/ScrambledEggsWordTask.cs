@@ -17,7 +17,7 @@ namespace Games.ScrambledEggs.Procedure
 {
     public class ScrambledEggsWordTask : MonoBehaviour
     {
-        [SerializeField] private Timer timer;
+        [SerializeField] private TimerBehaviour timer;
         [SerializeField] private TextMeshProUGUI word;
         [SerializeField] private TMP_InputField inputField;
         [SerializeField] private ScrambledEggsOfDoomSettings settings;
@@ -129,7 +129,7 @@ namespace Games.ScrambledEggs.Procedure
             _submitted = true;
             
             // submit input to other all players
-            PhotonView.Get(this).RPC(nameof(SubmitRPC), RpcTarget.All, submitToIndex, PhotonNetwork.LocalPlayer.ActorNumber, input);
+            PhotonView.Get(this).RPC(nameof(SubmitRPC), RpcTarget.AllBufferedViaServer, submitToIndex, PhotonNetwork.LocalPlayer.ActorNumber, input);
         }
 
         public void YesToEmpty()

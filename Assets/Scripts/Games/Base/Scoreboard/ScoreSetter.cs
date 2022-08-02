@@ -21,7 +21,7 @@ namespace Games.Base.Scoreboard
 
         private void Set(List<Vote> votes)
         {
-            var indices = votes.SortByVoteCount(out _);
+            var indices = votes.SortByVoteCount();
 
             var data = GlobalData.Read<ScrambledEggsGameData>(GameConstants.GlobalData.LatestGameData);
             var submissions = data.GetDrawingTask(data.GetRoundOn() - 1);
@@ -30,18 +30,19 @@ namespace Games.Base.Scoreboard
             var previous = GlobalData.HasKey(GameConstants.GlobalData.PreviousScoring) ? GlobalData.Read<Dictionary<int, int>>(GameConstants.GlobalData.LatestScoring) : new Dictionary<int, int>();
 
             var isNew = !previous.Any();
-            
-            foreach (var (index, voteCount) in indices)
+
+            for (var i = 0; i < submissions.Count; i++)
             {
-                var submission = submissions[index];
+                var submission = submissions[i];
                 var submissionSubmitterActorID = submission.SubmitterActorID;
-                
+                var votedForThis = indices.Where(kv => kv.Key == i).ToArray().First();
+
                 if (isNew)
                 {
                     previous.Add(submissionSubmitterActorID, 0);
                 }
                 
-                scores.Add(submissionSubmitterActorID, previous[submissionSubmitterActorID] + voteCount * 100);
+                scores.Add(submissionSubmitterActorID, previous[submissionSubmitterActorID] + votedForThis.Value * 100);
             }
 
             GlobalData.Set(GameConstants.GlobalData.PreviousScoring, previous);

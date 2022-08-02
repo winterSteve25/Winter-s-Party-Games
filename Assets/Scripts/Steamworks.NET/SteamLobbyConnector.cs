@@ -1,12 +1,15 @@
-using Photon.Pun;
-using Steamworks;
+#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
+#define DISABLESTEAMWORKS
+#endif
+
 using UnityEngine;
 using Utils;
 
-namespace Network.Steam
+namespace Steamworks.NET
 {
     public class SteamLobbyConnector : MonoBehaviour
     {
+        #if !DISABLESTEAMWORKS
         private Callback<GameLobbyJoinRequested_t> _requestJoinLobby;
 
         private static SteamLobbyConnector _instance;
@@ -35,5 +38,6 @@ namespace Network.Steam
             GlobalData.Set(GameConstants.GlobalData.SteamLobbyIDToJoin, callback.m_steamIDLobby);
             SceneTransition.TransitionToScene(GameConstants.SceneIndices.JoiningRoomViaSteam, false);
         }
+        #endif
     }
 }

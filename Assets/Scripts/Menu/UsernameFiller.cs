@@ -1,4 +1,9 @@
+#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
+#define DISABLESTEAMWORKS
+#endif
+
 using Steamworks;
+using Steamworks.NET;
 using TMPro;
 using UnityEngine;
 using Utils;
@@ -12,10 +17,12 @@ namespace Menu
 
         private void Start()
         {
+#if !DISABLESTEAMWORKS
             if (SteamManager.Initialized)
             {
                 inputField.text = SteamFriends.GetPersonaName().Replace("\r", "");
             } else
+#endif
             {
                 if (PlayerPrefs.HasKey(GameConstants.PlayerPrefs.Username))
                 {

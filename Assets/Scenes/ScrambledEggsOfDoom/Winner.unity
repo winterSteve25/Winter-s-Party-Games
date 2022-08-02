@@ -786,7 +786,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Welp, I guess there is a tie...
+  m_text: Welp, I guess there is a tie too...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a2f2583823ed6b629ac482fa7e536f0, type: 2}
   m_sharedMaterial: {fileID: -2150082456775160328, guid: 0a2f2583823ed6b629ac482fa7e536f0, type: 2}
