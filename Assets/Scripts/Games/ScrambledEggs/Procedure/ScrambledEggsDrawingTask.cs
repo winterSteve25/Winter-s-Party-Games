@@ -33,7 +33,6 @@ namespace Games.ScrambledEggs.Procedure
 
         private void Awake()
         {
-            PhotonNetwork.IsMessageQueueRunning = true;
             timer.timeLimit = settings.timeLimitDrawing;
             timer.StartTimer();
         }
@@ -128,8 +127,7 @@ namespace Games.ScrambledEggs.Procedure
         private IEnumerator Next()
         {
             yield return new WaitUntil(() => _receivedAll);
-            PhotonNetwork.IsMessageQueueRunning = false;
-            SceneTransition.TransitionToScene(transitionTo);
+            SceneManager.TransitionToScene(transitionTo);
         }
     }
 }

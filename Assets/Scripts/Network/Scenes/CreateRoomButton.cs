@@ -44,7 +44,7 @@ namespace Network.Scenes
 
         public override void OnJoinedRoom()
         {
-            SceneTransition.TransitionToScene(partyGame.roomScene);
+            SceneManager.TransitionToScene(partyGame.roomScene);
         }
 
         public override void OnCreateRoomFailed(short returnCode, string message)

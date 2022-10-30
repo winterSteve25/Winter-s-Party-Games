@@ -38,7 +38,6 @@ namespace Games.ScrambledEggs.Procedure
 
         private void Awake()
         {
-            PhotonNetwork.IsMessageQueueRunning = true;
             timer.timeLimit = settings.timeLimitWord;
             timer.StartTimer();
         }
@@ -175,8 +174,7 @@ namespace Games.ScrambledEggs.Procedure
         private IEnumerator Next()
         {
             yield return new WaitUntil(() => _dataReceived >= PhotonNetwork.CurrentRoom.PlayerCount);
-            PhotonNetwork.IsMessageQueueRunning = false;
-            SceneTransition.TransitionToScene(transitionTo);
+            SceneManager.TransitionToScene(transitionTo);
         }
     }
 }

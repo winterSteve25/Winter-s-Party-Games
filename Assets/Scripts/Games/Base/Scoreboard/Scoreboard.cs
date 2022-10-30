@@ -18,11 +18,6 @@ namespace Games.Base.Scoreboard
 
         public GameConstants.SceneIndices transitionTo;
 
-        private void Awake()
-        {
-            PhotonNetwork.IsMessageQueueRunning = true;
-        }
-
         private IEnumerator Start()
         {
             _scoreboard = new List<Score>();
@@ -53,7 +48,7 @@ namespace Games.Base.Scoreboard
             yield return new WaitForSeconds(2f);
             UpdateScoreboard(scoring);
             yield return new WaitForSeconds(5f);
-            SceneTransition.TransitionToScene(transitionTo);
+            SceneManager.TransitionToScene(transitionTo);
         }
 
         private void UpdateScoreboard(IReadOnlyDictionary<int, int> scoring)

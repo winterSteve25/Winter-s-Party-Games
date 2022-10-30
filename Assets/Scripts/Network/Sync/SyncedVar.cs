@@ -1,40 +1,55 @@
+using System;
+
 namespace Network.Sync
 {
     public class SyncedVar<T> : ISyncedVar
     {
-        private int _id;
-        private T _value;
+        protected readonly SyncManager SyncManager;
+        protected readonly int ID;
+        protected readonly Action OnChanged;
+        protected T _Value;
+
         public T Value
         {
-            get => _value;
+            get => _Value;
             set
             {
-                _value = value;
+                _Value = value;
+                OnChanged?.Invoke();
                 ValueChanged();
             }
         }
 
-        public SyncedVar() : this(default)
+        public SyncedVar(Action onChanged = null) : this(default, onChanged)
         {
         }
 
-        public SyncedVar(T value)
+        public SyncedVar(T value, Action onChanged = null)
         {
-            _value = value;
+            SyncManager = SyncManager.Instance;
+            _Value = value;
+            ID = SyncManager.AddSynced(this);
+            OnChanged = onChanged;
         }
 
-        private void ValueChanged()
+        ~SyncedVar()
         {
+            SyncManager.RemoveSynced(ID);
         }
 
-        public void Set(object val)
+        protected virtual void ValueChanged()
         {
-            Value = (T)val;
+            SyncManager.Changed(ID, _Value);
         }
 
-        public object Get()
+        /// <summary>
+        /// DO NOT call this. This is called by SyncManager to internally set the new value
+        /// </summary>
+        /// <param name="val"></param>
+        public virtual void Set(object val)
         {
-            return Value;
+            _Value = (T)val;
+            OnChanged?.Invoke();
         }
     }
 }

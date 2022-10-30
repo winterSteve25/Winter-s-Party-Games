@@ -7,12 +7,12 @@ namespace Network.Scenes
     {
         public void Create()
         {
-            SceneTransition.TransitionToScene(GameConstants.SceneIndices.CreateRoom);
+            SceneManager.TransitionToScene(GameConstants.SceneIndices.CreateRoom);
         }
 
         public void Join()
         {
-            SceneTransition.TransitionToScene(GameConstants.SceneIndices.JoinRoom);
+            SceneManager.TransitionToScene(GameConstants.SceneIndices.JoinRoom);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Menu
                 } 
             }
 
-            SceneTransition.TransitionToScene(toScene);
+            SceneManager.TransitionToScene(toScene);
         }
     }
 }

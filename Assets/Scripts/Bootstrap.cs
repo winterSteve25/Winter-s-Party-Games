@@ -1,6 +1,9 @@
 using System;
+using System.Linq;
 using ExitGames.Client.Photon;
+using Games.Base.Votes;
 using Games.Utils.Paint;
+using Photon.Pun;
 using UnityEngine;
 
 public static class Bootstrap
@@ -11,8 +14,11 @@ public static class Bootstrap
         Debug.Log("Registering custom types in PhotonPeer");
         PhotonPeer.RegisterType(typeof(Vector2), 253, SerializeVector2, DeserializeVector2);
         PhotonPeer.RegisterType(typeof(Quaternion), 252, SerializeQuaternion, DeserializeQuaternion);
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
-    
+
+    #region Vector2
+
     private static object DeserializeVector2(byte[] data)
     {
         var floatArray2 = new float[data.Length / 4];
@@ -28,7 +34,11 @@ public static class Bootstrap
         Buffer.BlockCopy(floatArray1, 0, byteArray, 0, byteArray.Length);
         return byteArray;
     }
-    
+
+    #endregion
+
+    #region Quaternion
+
     private static object DeserializeQuaternion(byte[] data)
     {
         var floatArray2 = new float[data.Length / 4];
@@ -44,4 +54,6 @@ public static class Bootstrap
         Buffer.BlockCopy(floatArray1, 0, byteArray, 0, byteArray.Length);
         return byteArray;
     }
+
+    #endregion
 }

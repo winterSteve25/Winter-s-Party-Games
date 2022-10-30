@@ -19,13 +19,15 @@ namespace Utils
                     {
                         deflateStream.Write(data, 0, data.Length);
                     }
+
                     compressArray = memoryStream.ToArray();
                 }
             }
             catch (Exception exception)
             {
-                // do something !
+                // ignored
             }
+
             return compressArray;
         }
 
@@ -48,7 +50,7 @@ namespace Utils
             }
             catch (Exception exception)
             {
-                // do something !
+                // ignored
             }
 
             return decompressedArray;
@@ -74,18 +76,14 @@ namespace Utils
                 bytes[i] = SerializeColor(colors[i]);
             }
             
-            Debug.Log(bytes.Length);
             var compressed = Compress(bytes);
-            Debug.Log(compressed.Length);
-            
+
             return compressed;
         }
 
         public static Color[] DeserializeTexture2DPixels(byte[] pixels)
         {
             var data = Decompress(pixels);
-
-            Debug.Log(data.Length);
 
             var colors = new Color[data.Length];
 

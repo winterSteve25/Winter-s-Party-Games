@@ -33,16 +33,17 @@ namespace Menu
 
         private void OnEnable()
         {
-            SceneTransition.OnTransitionedToNewScene += NewScene;
+            SceneManager.OnTransitionedToNewScene += NewScene;
         }
 
         private void OnDisable()
         {
-            SceneTransition.OnTransitionedToNewScene -= NewScene;
+            SceneManager.OnTransitionedToNewScene -= NewScene;
         }
 
         private void Update()
         {
+            if (mainCamera == null) return;
             var width = 1 / (mainCamera.WorldToViewportPoint(new Vector3(1, 1, z)).x - 0.5f);
             var sh = _particleSystem.shape;
             sh.scale = new Vector3(width * 4, 1, 1);

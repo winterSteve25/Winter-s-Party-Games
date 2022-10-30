@@ -5,6 +5,7 @@ using Base;
 using DG.Tweening;
 using Games.Utils;
 using Network;
+using Network.Sync;
 using Photon.Pun;
 using Settings;
 using UnityEngine;
@@ -30,7 +31,6 @@ namespace Games.Base.Votes
 
         private void Awake()
         {
-            PhotonNetwork.IsMessageQueueRunning = true;
             timer.timeLimit = settings.timeLimitVoting;
             timer.StartTimer();
         }
@@ -56,21 +56,19 @@ namespace Games.Base.Votes
             _ended = true;
             GlobalData.Set(GameConstants.GlobalData.LatestVoteResult, _votes);
             VoteEnded?.Invoke(_votes);
-            PhotonNetwork.IsMessageQueueRunning = false;
             PlayerData.Set(PhotonNetwork.LocalPlayer, GameConstants.CustomPlayerProperties.Loaded, false);
-            SceneTransition.TransitionToScene(overrideTransitionScene
+            SceneManager.TransitionToScene(overrideTransitionScene
                 ? overrideValue
                 : LobbyData.Instance.gameMode.voteResultScene);
         }
 
-        public void Vote(int voter, int votedForIndex, Vector2 voteOptionIndicatorPosition,
-            Quaternion voteOptionIndicatorRotation)
+        public void Vote(int voter, int votedForIndex, Vector2 voteOptionIndicatorPosition, Quaternion voteOptionIndicatorRotation)
         {
             if (_selfVotedCounts >= allowedVotesPerPerson) return;
             _selfVotedCounts++;
-            PhotonView.Get(this).RPC(nameof(VoteRPC), RpcTarget.AllBufferedViaServer, voter, votedForIndex, voteOptionIndicatorPosition, voteOptionIndicatorRotation);
+            PhotonView.Get(this).RPC(nameof(VoteRPC), RpcTarget.All, voter, votedForIndex, voteOptionIndicatorPosition, voteOptionIndicatorRotation);
         }
-        
+
         private int _dataReceived;
 
         [PunRPC]
@@ -79,8 +77,7 @@ namespace Games.Base.Votes
             if (_ended) return;
             _dataReceived++;
             _votes.Add(new Vote(voter, votedForIndex));
-            var tweener = voteIndicator.Vote(voter, voteOptionIndicatorPosition, voteOptionIndicatorRotation);
-            tweener.OnComplete(() =>
+            voteIndicator.Vote(voter, voteOptionIndicatorPosition, voteOptionIndicatorRotation).OnComplete(() =>
             {
                 if (_dataReceived >= PhotonNetwork.CurrentRoom.PlayerCount)
                 {

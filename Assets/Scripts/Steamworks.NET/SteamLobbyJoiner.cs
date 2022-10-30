@@ -83,14 +83,13 @@ namespace Steamworks.NET
             {
                 text.text = "Failed to fetch necessary data...";
                 yield return new WaitForSeconds(2f);
-                SceneTransition.TransitionToScene(GameConstants.SceneIndices.MainMenu);
+                SceneManager.TransitionToScene(GameConstants.SceneIndices.MainMenu);
             }
         }
 
         public override void OnJoinedRoom()
         {
-            PhotonNetwork.IsMessageQueueRunning = false;
-            SceneTransition.TransitionToScene(
+            SceneManager.TransitionToScene(
                 RoomData.Read<GameConstants.SceneIndices>(GameConstants.CustomRoomProperties.Scene));
         }
 

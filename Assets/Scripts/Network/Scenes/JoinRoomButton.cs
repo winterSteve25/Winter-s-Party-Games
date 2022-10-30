@@ -1,4 +1,3 @@
-using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using Utils;
@@ -14,8 +13,7 @@ namespace Network.Scenes
             if (string.IsNullOrEmpty(joinInput.text)) return;
             GlobalData.Set(GameConstants.GlobalData.IsHost, false);
             GlobalData.Set(GameConstants.GlobalData.RoomIDToJoin, joinInput.text.Replace("\r", "").Replace(" ", ""));
-            PhotonNetwork.IsMessageQueueRunning = false;
-            SceneTransition.TransitionToScene(GameConstants.SceneIndices.JoiningRoom, false);
+            SceneManager.TransitionToScene(GameConstants.SceneIndices.JoiningRoom);
         }
     }
 }

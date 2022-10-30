@@ -36,7 +36,7 @@ namespace Steamworks.NET
         {
             Debug.Log("Requested to join Steam lobby");
             GlobalData.Set(GameConstants.GlobalData.SteamLobbyIDToJoin, callback.m_steamIDLobby);
-            SceneTransition.TransitionToScene(GameConstants.SceneIndices.JoiningRoomViaSteam, false);
+            SceneManager.TransitionToScene(GameConstants.SceneIndices.JoiningRoomViaSteam);
         }
         #endif
     }

@@ -34,8 +34,6 @@ namespace Base
 
         protected virtual void Awake()
         {
-            PhotonNetwork.IsMessageQueueRunning = true;
-
             if (GlobalData.ExistAnd<bool>(GameConstants.GlobalData.IsHost, isHost => isHost))
             {
                 foreach (var obj in playerObjects)
@@ -179,7 +177,7 @@ namespace Base
         [PunRPC]
         private void StartGameRPC()
         {
-            SceneTransition.TransitionToScene(LobbyData.Instance.gameMode.gameScene);
+            SceneManager.TransitionToScene(LobbyData.Instance.gameMode.gameScene);
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)

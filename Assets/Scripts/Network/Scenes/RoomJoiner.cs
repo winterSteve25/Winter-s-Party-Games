@@ -11,11 +11,6 @@ namespace Network.Scenes
     {
         [SerializeField] private TextMeshProUGUI text;
         [SerializeField] private GameObject backButton;
-        
-        private void Awake()
-        {
-            PhotonNetwork.IsMessageQueueRunning = true;
-        }
 
         private void Start()
         {
@@ -26,8 +21,7 @@ namespace Network.Scenes
         
         public override void OnJoinedRoom()
         {
-            PhotonNetwork.IsMessageQueueRunning = false;
-            SceneTransition.TransitionToScene(RoomData.Read<GameConstants.SceneIndices>(GameConstants.CustomRoomProperties.Scene));
+            SceneManager.TransitionToScene(RoomData.Read<GameConstants.SceneIndices>(GameConstants.CustomRoomProperties.Scene));
         }
 
         public override void OnJoinRoomFailed(short returnCode, string message)

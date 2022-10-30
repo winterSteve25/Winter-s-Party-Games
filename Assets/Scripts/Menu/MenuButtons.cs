@@ -14,12 +14,12 @@ namespace Menu
 
         public void PlayButtonClicked()
         {
-            SceneTransition.TransitionToScene(GameConstants.SceneIndices.CreateOrJoinRoom);
+            SceneManager.TransitionToScene(GameConstants.SceneIndices.CreateOrJoinRoom);
         }
 
         public void PreferencesButtonClicked()
         {
-            SceneTransition.TransitionToScene(GameConstants.SceneIndices.Preferences);
+            SceneManager.TransitionToScene(GameConstants.SceneIndices.Preferences);
         }
 
         public void QuitButtonClicked()

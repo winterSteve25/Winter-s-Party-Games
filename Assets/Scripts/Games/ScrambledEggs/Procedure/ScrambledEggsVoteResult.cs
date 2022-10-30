@@ -16,11 +16,6 @@ namespace Games.ScrambledEggs.Procedure
         [SerializeField] private GameObject prefab;
         [SerializeField] private Transform row;
         [SerializeField] private GameObject tieMessage;
-        
-        private void Awake()
-        {
-            PhotonNetwork.IsMessageQueueRunning = true;
-        }
 
         private IEnumerator Start()
         {
@@ -54,8 +49,7 @@ namespace Games.ScrambledEggs.Procedure
             }
 
             yield return new WaitForSeconds(4f);
-            PhotonNetwork.IsMessageQueueRunning = false;
-            SceneTransition.TransitionToScene(GameConstants.SceneIndices.ScrambledEggsOfDoomScoreboard);
+            SceneManager.TransitionToScene(GameConstants.SceneIndices.ScrambledEggsOfDoomScoreboard);
         }
     }
 }

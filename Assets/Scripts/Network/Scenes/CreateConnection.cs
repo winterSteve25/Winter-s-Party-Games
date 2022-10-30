@@ -41,7 +41,7 @@ namespace Network.Scenes
         public override void OnJoinedLobby()
         {
             StopCoroutine(_coroutine);
-            SceneTransition.TransitionToScene(GameConstants.SceneIndices.MainMenu);
+            SceneManager.TransitionToScene(GameConstants.SceneIndices.MainMenu);
         }
     }
 }

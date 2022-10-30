@@ -15,11 +15,6 @@ namespace Games.ScrambledEggs.Procedure
         [SerializeField] private Transform row;
         [SerializeField] private GameObject backButton;
         [SerializeField] private GameObject tieMessage;
-        
-        private void Awake()
-        {
-            PhotonNetwork.IsMessageQueueRunning = true;
-        }
 
         private IEnumerator Start()
         {
