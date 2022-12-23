@@ -4,7 +4,7 @@
 
 using Photon.Pun;
 using UnityEngine;
-using Utils;
+using Utils.Data;
 
 namespace Steamworks.NET
 {

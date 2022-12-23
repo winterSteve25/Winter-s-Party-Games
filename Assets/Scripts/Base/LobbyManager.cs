@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using DG.Tweening;
 using Games.Base;
-using Network;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -10,13 +8,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using Utils;
 using Utils.Audio;
+using Utils.Data;
 
 namespace Base
 {
     public class LobbyManager : MonoBehaviourPunCallbacks
     {
-        [SerializeField] protected GameObject[] hostObjects;
-        [SerializeField] protected GameObject[] playerObjects;
+        [SerializeField]
+        // [InfoBox("All objects in this list will only be initialized when the player is the host")]
+        protected GameObject[] hostObjects;
+        
+        [SerializeField] 
+        // [InfoBox("All objects in this list will only be initialized when the player is not host")]
+        protected GameObject[] playerObjects;
 
         [SerializeField] protected TextMeshProUGUI roomCodeText;
         [SerializeField] protected Button startGameButton;
@@ -34,7 +38,7 @@ namespace Base
 
         protected virtual void Awake()
         {
-            if (GlobalData.ExistAnd<bool>(GameConstants.GlobalData.IsHost, isHost => isHost))
+            if (GlobalData.ExistAnd(GameConstants.GlobalDataKeys.IsHost, isHost => isHost))
             {
                 foreach (var obj in playerObjects)
                 {
@@ -114,8 +118,7 @@ namespace Base
             CheckObjectsAvailability();
             if (IsHost)
             {
-                hostCrown.GetComponent<RectTransform>().position = SelfSlot.GetCrownLocation();
-                hostCrown.GetComponent<RectTransform>().rotation = SelfSlot.GetCrownRotation();
+                hostCrown.GetComponent<RectTransform>().SetPositionAndRotation(SelfSlot.GetCrownLocation(), SelfSlot.GetCrownRotation());
             }
             else
             {
@@ -194,7 +197,7 @@ namespace Base
                 if (LobbyData.Instance.Players.First().actorID == PhotonNetwork.LocalPlayer.ActorNumber)
                 {
                     IsHost = true;
-                    GlobalData.Set(GameConstants.GlobalData.IsHost, true);
+                    GlobalData.Set(GameConstants.GlobalDataKeys.IsHost, true);
                     PlayerData.Set(PhotonNetwork.LocalPlayer, GameConstants.CustomPlayerProperties.IsHost, true);
 
                     hostCrown.GetComponent<RectTransform>().position = SelfSlot.GetCrownLocation();
@@ -214,12 +217,11 @@ namespace Base
         {
             var data = LobbyData.Instance.Players.Find(p => p.actorID == player.ActorNumber);
             var slot = AllPlayerSlots[data.slotTaken];
-            slot.GetComponentInChildren<Image>().GetComponent<RectTransform>().DOScale(Vector3.zero, 0.1f).OnComplete(
-                () =>
-                {
-                    slot.gameObject.SetActive(false);
-                    availablePlayerSlots[data.slotTaken] = slot;
-                });
+            slot.ShrinkIcon(() =>
+            {
+                slot.gameObject.SetActive(false);
+                availablePlayerSlots[data.slotTaken] = slot;
+            });
         }
 
         private void AddPlayerToNextAvailableSlot(PlayerLobbyItemData data)
@@ -227,10 +229,8 @@ namespace Base
             var slot = availablePlayerSlots.First(element => element is not null);
             data.slotTaken = AllPlayerSlots.IndexOf(slot);
             availablePlayerSlots[data.slotTaken] = null;
-            var rectTransform = slot.GetComponentInChildren<Image>().GetComponent<RectTransform>();
-            rectTransform.localScale = Vector3.zero;
             slot.gameObject.SetActive(true);
-            rectTransform.DOScale(Vector3.one, 0.1f).SetEase(Ease.OutCubic);
+            slot.ZoomIcon();
             slot.data = data;
             slot.UpdateAppearance();
 
@@ -250,12 +250,10 @@ namespace Base
                 if (p is null) continue;
                 var isHost = PlayerData.Read<bool>(p, GameConstants.CustomPlayerProperties.IsHost);
 
-                if (isHost)
-                {
-                    hostCrown.GetComponent<RectTransform>().position = slot.GetCrownLocation();
-                    hostCrown.GetComponent<RectTransform>().rotation = slot.GetCrownRotation();
-                    break;
-                }
+                if (!isHost) continue;
+                
+                hostCrown.GetComponent<RectTransform>().SetPositionAndRotation(slot.GetCrownLocation(), slot.GetCrownRotation());
+                break;
             }
         }
     }

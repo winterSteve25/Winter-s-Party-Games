@@ -1,5 +1,6 @@
 using UnityEngine;
 using Utils;
+using Utils.Data;
 
 namespace Network.Scenes
 {
@@ -7,12 +8,12 @@ namespace Network.Scenes
     {
         public void Create()
         {
-            SceneManager.TransitionToScene(GameConstants.SceneIndices.CreateRoom);
+            SceneManager.TransitionToScene(GameConstants.SceneData.createRoom);
         }
 
         public void Join()
         {
-            SceneManager.TransitionToScene(GameConstants.SceneIndices.JoinRoom);
+            SceneManager.TransitionToScene(GameConstants.SceneData.joinRoom);
         }
     }
 }

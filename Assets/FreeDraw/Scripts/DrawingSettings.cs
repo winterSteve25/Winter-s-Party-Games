@@ -1,4 +1,3 @@
-using System;
 using Games.Utils.Paint;
 using UnityEngine;
 

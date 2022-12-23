@@ -6,7 +6,7 @@ using Steamworks;
 using Steamworks.NET;
 using TMPro;
 using UnityEngine;
-using Utils;
+using Utils.Data;
 using Utils.Dictionary;
 
 namespace Menu

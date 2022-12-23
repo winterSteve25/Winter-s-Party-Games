@@ -1,40 +1,36 @@
 using Games.Base;
 using Photon.Pun;
 using Photon.Realtime;
+using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Utils;
+using Utils.Data;
+using Random = UnityEngine.Random;
 
 namespace Network.Scenes
 {
-    public class CreateRoomButton : MonoBehaviourPunCallbacks
+    public class CreateRoomButton : MonoBehaviourPunCallbacks, IPointerClickHandler
     {
-        [SerializeField] private PartyGame partyGame;
+        [SerializeField, Required] private PartyGame partyGame;
+        [SerializeField, Required] private Image gameModePreview;
+        [SerializeField, Required] private TMP_Text gameModeName;
+
         private bool _creating;
-        
-        public override void OnEnable()
-        {
-            base.OnEnable();
-            GetComponent<Button>().onClick.AddListener(CreateRoomButtonClicked);
-        }
 
-        public override void OnDisable()
+        private void Start()
         {
-            base.OnDisable();
-            GetComponent<Button>().onClick.RemoveListener(CreateRoomButtonClicked);
-        }
-
-        private void CreateRoomButtonClicked()
-        {
-            GetComponent<Button>().interactable = false;
-            GlobalData.Set(GameConstants.GlobalData.IsHost, true);
-            CreateRoom();
+            gameModePreview.sprite = partyGame.gameModePreview;
+            gameModeName.text = partyGame.gameModeName;
         }
 
         private void CreateRoom()
         {
+            _creating = true;
+            
             var s = Random.Range(0, 1000000).ToString("D6");
-
             PhotonNetwork.CreateRoom(s, new RoomOptions
             {
                 CustomRoomProperties = partyGame.CustomRoomProperties,
@@ -44,6 +40,7 @@ namespace Network.Scenes
 
         public override void OnJoinedRoom()
         {
+            _creating = false;
             SceneManager.TransitionToScene(partyGame.roomScene);
         }
 
@@ -55,8 +52,15 @@ namespace Network.Scenes
             }
             else
             {
-                GetComponent<Button>().interactable = true;
+                _creating = false;
             }
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (_creating) return;
+            GlobalData.Set(GameConstants.GlobalDataKeys.IsHost, true);
+            CreateRoom();
         }
     }
 }

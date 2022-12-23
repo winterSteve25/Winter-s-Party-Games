@@ -1,7 +1,7 @@
-using System;
 using UnityEngine;
 using Utils;
 using Utils.Audio;
+using Utils.Data;
 
 namespace Menu
 {
@@ -14,12 +14,12 @@ namespace Menu
 
         public void PlayButtonClicked()
         {
-            SceneManager.TransitionToScene(GameConstants.SceneIndices.CreateOrJoinRoom);
+            SceneManager.TransitionToScene(GameConstants.SceneData.createOrJoin);
         }
 
         public void PreferencesButtonClicked()
         {
-            SceneManager.TransitionToScene(GameConstants.SceneIndices.Preferences);
+            SceneManager.TransitionToScene(GameConstants.SceneData.preferences);
         }
 
         public void QuitButtonClicked()

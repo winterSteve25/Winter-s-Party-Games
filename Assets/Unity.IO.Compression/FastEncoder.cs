@@ -1,7 +1,6 @@
 namespace Unity.IO.Compression {
     using System;
     using System.Diagnostics;
-    using System.Globalization;
 
     internal class FastEncoder {
 

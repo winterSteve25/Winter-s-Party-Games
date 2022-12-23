@@ -1,8 +1,7 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-using Utils;
+using Utils.Data;
 
 namespace Menu
 {
@@ -36,7 +35,7 @@ namespace Menu
             // resolution.onValueChanged.AddListener(ResolutionChanged);
 
             masterAudioSlider.value = PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.MasterVolume, 1);
-            sfxAudioSlider.value = PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.SFXVolume, 1);
+            sfxAudioSlider.value = PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.SfxVolume, 1);
             musicAudioSlider.value = PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.MusicVolume, 1);
             uiAudioSlider.value = PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.UIVolume, 1);
 
@@ -46,8 +45,8 @@ namespace Menu
 
         private void SfxSliderChanged(float value)
         {
-            audioMixer.SetFloat(GameConstants.PlayerPrefs.SFXVolume, value);
-            PlayerPrefs.SetFloat(GameConstants.PlayerPrefs.SFXVolume, value);
+            audioMixer.SetFloat(GameConstants.PlayerPrefs.SfxVolume, value);
+            PlayerPrefs.SetFloat(GameConstants.PlayerPrefs.SfxVolume, value);
             PlayerPrefs.Save();
         }
 

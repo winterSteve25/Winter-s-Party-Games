@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
-using Utils;
+using Utils.Data;
 
 namespace Menu
 {
@@ -11,7 +11,7 @@ namespace Menu
         private void Start()
         {
             audioMixer.SetFloat(GameConstants.PlayerPrefs.MasterVolume, PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.MasterVolume, 1));
-            audioMixer.SetFloat(GameConstants.PlayerPrefs.SFXVolume, PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.SFXVolume, 1));
+            audioMixer.SetFloat(GameConstants.PlayerPrefs.SfxVolume, PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.SfxVolume, 1));
             audioMixer.SetFloat(GameConstants.PlayerPrefs.MusicVolume, PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.MusicVolume, 1));
             audioMixer.SetFloat(GameConstants.PlayerPrefs.UIVolume, PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.UIVolume, 1));
             Destroy(gameObject);

@@ -1,9 +1,8 @@
-using System;
-using System.Collections;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using Utils;
+using Utils.Data;
 
 namespace Network.Scenes
 {
@@ -16,12 +15,12 @@ namespace Network.Scenes
         {
             text.text = "Joining...";
             backButton.SetActive(false);
-            PhotonNetwork.JoinRoom(GlobalData.Read<string>(GameConstants.GlobalData.RoomIDToJoin));
+            PhotonNetwork.JoinRoom(GlobalData.Read<string>(GameConstants.GlobalDataKeys.RoomIDToJoin));
         }
         
         public override void OnJoinedRoom()
         {
-            SceneManager.TransitionToScene(RoomData.Read<GameConstants.SceneIndices>(GameConstants.CustomRoomProperties.Scene));
+            SceneManager.TransitionToScene(RoomData.Read<string>(GameConstants.CustomRoomProperties.Scene));
         }
 
         public override void OnJoinRoomFailed(short returnCode, string message)

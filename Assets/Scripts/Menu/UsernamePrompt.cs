@@ -1,6 +1,6 @@
 using UnityEngine;
 using Utils;
-using Utils.Audio;
+using Utils.Data;
 
 namespace Menu
 {

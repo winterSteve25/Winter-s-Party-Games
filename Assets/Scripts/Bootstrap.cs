@@ -1,8 +1,5 @@
 using System;
-using System.Linq;
 using ExitGames.Client.Photon;
-using Games.Base.Votes;
-using Games.Utils.Paint;
 using Photon.Pun;
 using UnityEngine;
 

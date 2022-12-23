@@ -1,7 +1,7 @@
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
-using Utils;
+using Utils.Data;
 
 namespace Menu
 {

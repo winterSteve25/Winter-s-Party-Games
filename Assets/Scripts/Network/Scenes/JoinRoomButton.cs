@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using Utils;
+using Utils.Data;
 
 namespace Network.Scenes
 {
@@ -11,9 +12,9 @@ namespace Network.Scenes
         public void JoinRoomButtonClicked()
         {
             if (string.IsNullOrEmpty(joinInput.text)) return;
-            GlobalData.Set(GameConstants.GlobalData.IsHost, false);
-            GlobalData.Set(GameConstants.GlobalData.RoomIDToJoin, joinInput.text.Replace("\r", "").Replace(" ", ""));
-            SceneManager.TransitionToScene(GameConstants.SceneIndices.JoiningRoom);
+            GlobalData.Set(GameConstants.GlobalDataKeys.IsHost, false);
+            GlobalData.Set(GameConstants.GlobalDataKeys.RoomIDToJoin, joinInput.text.Replace("\r", "").Replace(" ", ""));
+            SceneManager.TransitionToScene(GameConstants.SceneData.joiningRoom);
         }
     }
 }

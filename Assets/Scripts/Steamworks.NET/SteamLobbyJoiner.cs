@@ -4,11 +4,11 @@
 
 using System;
 using System.Collections;
-using Network;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using Utils;
+using Utils.Data;
 
 namespace Steamworks.NET
 {
@@ -30,15 +30,15 @@ namespace Steamworks.NET
             backButton.SetActive(false);
             _lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
             _lobbyDataUpdated = Callback<LobbyDataUpdate_t>.Create(OnLobbyDataUpdated);
-            SteamMatchmaking.JoinLobby(GlobalData.Read<CSteamID>(GameConstants.GlobalData.SteamLobbyIDToJoin));
+            SteamMatchmaking.JoinLobby(GlobalData.Read<CSteamID>(GameConstants.GlobalDataKeys.SteamLobbyIDToJoin));
         }
 
         private void OnLobbyEntered(LobbyEnter_t callback)
         {
             Debug.Log("Joined Steam lobby");
             // if we are host we are already automatically joining the room. So only join room if we are not host
-            if (GlobalData.ExistAnd<bool>(GameConstants.GlobalData.IsHost, isHost => isHost)) return;
-            GlobalData.Set(GameConstants.GlobalData.IsHost, false);
+            if (GlobalData.ExistAnd<bool>(GameConstants.GlobalDataKeys.IsHost, isHost => isHost)) return;
+            GlobalData.Set(GameConstants.GlobalDataKeys.IsHost, false);
             var lobbyID = new CSteamID(callback.m_ulSteamIDLobby);
             StartCoroutine(JoinRoom(lobbyID));
         }
@@ -83,14 +83,13 @@ namespace Steamworks.NET
             {
                 text.text = "Failed to fetch necessary data...";
                 yield return new WaitForSeconds(2f);
-                SceneManager.TransitionToScene(GameConstants.SceneIndices.MainMenu);
+                SceneManager.TransitionToScene(GameConstants.SceneData.mainMenu);
             }
         }
 
         public override void OnJoinedRoom()
         {
-            SceneManager.TransitionToScene(
-                RoomData.Read<GameConstants.SceneIndices>(GameConstants.CustomRoomProperties.Scene));
+            SceneManager.TransitionToScene(RoomData.Read<string>(GameConstants.CustomRoomProperties.Scene));
         }
 
         public override void OnJoinRoomFailed(short returnCode, string message)

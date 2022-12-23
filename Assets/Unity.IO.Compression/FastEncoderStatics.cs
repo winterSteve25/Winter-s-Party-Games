@@ -1,6 +1,5 @@
 namespace Unity.IO.Compression {
     using System.Diagnostics;
-    using System.Globalization;
 
     internal static class FastEncoderStatics {
         // static information for encoding, DO NOT MODIFY

@@ -1,3 +1,4 @@
+using KevinCastejon.MoreAttributes;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ namespace Menu
     [RequireComponent(typeof(Button))]
     public class BackButton : MonoBehaviour
     {
-        [SerializeField] private GameConstants.SceneIndices toScene;
+        [Scene, SerializeField] private string toScene;
         
         [SerializeField] private bool leaveRoom;
 

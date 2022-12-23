@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
-using JetBrains.Annotations;
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Utils.Audio;
+using Utils.Data;
 
 namespace Utils
 {
@@ -32,7 +31,7 @@ namespace Utils
             Destroy(gameObject);
         }
 
-        private IEnumerator Transition(int scene, bool useTransition)
+        private IEnumerator Transition(string scene, bool useTransition)
         {
             animator.ResetTrigger(Start);
             animator.ResetTrigger(End);
@@ -56,9 +55,9 @@ namespace Utils
             }
         }
 
-        public static void TransitionToScene(GameConstants.SceneIndices scene, bool useTransition = true)
+        public static void TransitionToScene(string scene, bool useTransition = true)
         {
-            _instance.StartCoroutine(_instance.Transition((int)scene, useTransition));
+            _instance.StartCoroutine(_instance.Transition(scene, useTransition));
         }
     }
 }

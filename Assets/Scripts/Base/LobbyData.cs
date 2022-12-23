@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Games.Base;
 using UnityEngine;
-using Utils;
+using Utils.Data;
 
 namespace Base
 {
@@ -16,7 +16,7 @@ namespace Base
         public PartyGame gameMode;
 
         [NonSerialized] public List<PlayerLobbyItemData> Players;
-        [NonSerialized] public bool IsHost;
+        public bool IsHost { get; private set; }
 
         private void Awake()
         {
@@ -27,7 +27,7 @@ namespace Base
             }
             
             Instance = this;
-            IsHost = GlobalData.ExistAnd<bool>(GameConstants.GlobalData.IsHost, isHost => isHost);
+            IsHost = GlobalData.ExistAnd(GameConstants.GlobalDataKeys.IsHost, isHost => isHost);
             DontDestroyOnLoad(gameObject);
         }
     }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
-using Utils;
+using Utils.Data;
 
 namespace Games.Base.Submissions
 {

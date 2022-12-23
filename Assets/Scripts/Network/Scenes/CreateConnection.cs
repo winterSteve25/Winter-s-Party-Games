@@ -3,6 +3,7 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using Utils;
+using Utils.Data;
 
 namespace Network.Scenes
 {
@@ -41,7 +42,7 @@ namespace Network.Scenes
         public override void OnJoinedLobby()
         {
             StopCoroutine(_coroutine);
-            SceneManager.TransitionToScene(GameConstants.SceneIndices.MainMenu);
+            SceneManager.TransitionToScene(GameConstants.SceneData.mainMenu);
         }
     }
 }

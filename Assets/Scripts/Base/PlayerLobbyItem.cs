@@ -1,4 +1,6 @@
+using System;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,8 +11,13 @@ namespace Base
     {
         public PlayerLobbyItemData data;
 
-        [SerializeField] private RectTransform crownSpot;
-        [SerializeField] private AnimationCurve bobMotion;
+        [SerializeField, Required] private RectTransform crownSpot;
+        [SerializeField, Required] private Image characterImage;
+        [SerializeField, Required] private Animator characterAnimator;
+        [SerializeField, Required] private Transform characterPrefabParent;
+        [SerializeField, Required] private Transform worldSpaceCharacterPrefabParent;
+
+        private GameObject _spawnedPrefab;
         private TextMeshProUGUI _text;
         private RectTransform _textRectTransform;
         
@@ -18,7 +25,9 @@ namespace Base
         {
             _text = GetComponentInChildren<TextMeshProUGUI>();
             _textRectTransform = _text.GetComponent<RectTransform>();
-            _textRectTransform.DOBlendableLocalMoveBy(new Vector3(0, 5, 0), 2f).SetLoops(-1, LoopType.Yoyo).SetEase(bobMotion);
+            _textRectTransform.DOBlendableLocalMoveBy(new Vector3(0, 5, 0), 2f)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetEase(Ease.InOutCubic);
 
             if (LobbyData.Instance == null)
             {
@@ -32,31 +41,7 @@ namespace Base
             if (data == null) return;
             GetComponentInChildren<TextMeshProUGUI>().text = data.nickname;
             var gameModePlayerAvatar = LobbyData.Instance.gameMode.playerAvatars[data.avatarIndex];
-            var prefab = gameModePlayerAvatar.prefab;
-
-            Sprite sprite;
-            RuntimeAnimatorController controller;
-
-            if (prefab is not null)
-            {
-                sprite = prefab.GetComponentInChildren<SpriteRenderer>().sprite;
-                controller = prefab.GetComponentInChildren<Animator>().runtimeAnimatorController;
-            }
-            else
-            {
-                sprite = gameModePlayerAvatar.sprite;
-                controller = gameModePlayerAvatar.controller;
-            }
-            
-            GetComponentInChildren<Image>().sprite = sprite;
-
-            if (controller is null)
-            {
-                GetComponent<Animator>().enabled = false;    
-                return;
-            }
-            
-            GetComponent<Animator>().runtimeAnimatorController = controller;
+            _spawnedPrefab = gameModePlayerAvatar.Build(worldSpaceCharacterPrefabParent, characterPrefabParent, characterImage, characterAnimator);
         }
 
         public Vector3 GetCrownLocation()
@@ -67,6 +52,36 @@ namespace Base
         public Quaternion GetCrownRotation()
         {
             return crownSpot.rotation;
-        } 
+        }
+
+        public void ZoomIcon()
+        {
+            if (_spawnedPrefab != null)
+            {
+                _spawnedPrefab.transform.localScale = Vector3.zero;
+                _spawnedPrefab.transform.DOScale(1, 0.1f)
+                    .SetEase(Ease.OutCubic);
+            }
+            else
+            {
+                characterImage.transform.localScale = Vector3.zero;
+                characterImage.transform.DOScale(1, 0.1f)
+                    .SetEase(Ease.OutCubic);
+            }
+        }
+
+        public void ShrinkIcon(Action restorePlayer)
+        {
+            if (_spawnedPrefab != null)
+            {
+                _spawnedPrefab.transform.DOScale(0, 0.1f)
+                    .OnComplete(() => restorePlayer());
+            }
+            else
+            {
+                characterImage.transform.DOScale(0, 0.1f)
+                    .OnComplete(() => restorePlayer());
+            }
+        }
     }
 }

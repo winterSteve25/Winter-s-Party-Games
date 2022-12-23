@@ -1,18 +1,23 @@
 using ExitGames.Client.Photon;
+using KevinCastejon.MoreAttributes;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using Utils;
+using Utils.Data;
 
 namespace Games.Base
 {
     [CreateAssetMenu(fileName = "New Party Game", menuName = "Winter's Party Games/New Party Game")]
     public class PartyGame : ScriptableObject
     {
-        public GameConstants.SceneIndices roomScene;
-        public GameConstants.SceneIndices gameScene;
-        public GameConstants.SceneIndices voteResultScene;
-        public byte maximumPlayers = 0;
-        public byte minimumPlayers = 0;
+        [Scene] public string roomScene;
+        [Scene] public string gameScene;
+        [MinValue(2)] public byte maximumPlayers;
+        [MinValue(1)] public byte minimumPlayers;
         public PlayerLobbySprite[] playerAvatars;
+
+        [Required] public Sprite gameModePreview;
+        [Required] public string gameModeName;
+        [Required, TextArea] public string description;
         
         public Hashtable CustomRoomProperties => new() { { GameConstants.CustomRoomProperties.Scene, roomScene } };
     }

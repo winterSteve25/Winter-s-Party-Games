@@ -1,7 +1,6 @@
 using System;
-using Network;
 using Photon.Realtime;
-using Utils;
+using Utils.Data;
 
 namespace Base
 {

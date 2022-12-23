@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc50b718d35247678738ea9bd68abaf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toScene: 1
+  toScene: ConnectingToServer
   leaveRoom: 1
 --- !u!114 &1374172403044452524
 MonoBehaviour:

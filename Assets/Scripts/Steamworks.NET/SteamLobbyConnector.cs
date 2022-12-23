@@ -4,6 +4,7 @@
 
 using UnityEngine;
 using Utils;
+using Utils.Data;
 
 namespace Steamworks.NET
 {
@@ -35,8 +36,8 @@ namespace Steamworks.NET
         private static void OnRequestJoinLobby(GameLobbyJoinRequested_t callback)
         {
             Debug.Log("Requested to join Steam lobby");
-            GlobalData.Set(GameConstants.GlobalData.SteamLobbyIDToJoin, callback.m_steamIDLobby);
-            SceneManager.TransitionToScene(GameConstants.SceneIndices.JoiningRoomViaSteam);
+            GlobalData.Set(GameConstants.GlobalDataKeys.SteamLobbyIDToJoin, callback.m_steamIDLobby);
+            SceneManager.TransitionToScene(GameConstants.SceneData.joinViaSteam);
         }
         #endif
     }

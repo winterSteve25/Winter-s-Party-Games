@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Audio;
+using Utils.Data;
 
 namespace Utils.Audio
 {

@@ -2,7 +2,6 @@ namespace Unity.IO.Compression
 {
     using System;
     using System.Diagnostics;
-    using System.Globalization;
 
     // This class maintains a window for decompressed output.
     // We need to keep this because the decompressed information can be 

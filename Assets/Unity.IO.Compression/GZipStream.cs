@@ -1,7 +1,6 @@
 namespace Unity.IO.Compression {
     using System;
     using System.IO;
-    using System.Diagnostics;
 
     public class GZipStream : Stream {
 
