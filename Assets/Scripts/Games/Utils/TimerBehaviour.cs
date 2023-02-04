@@ -1,10 +1,11 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Games.Utils
 {
-    public class TimerBehaviour : MonoBehaviour
+    public class TimerBehaviour : MonoBehaviour, IPunObservable
     {
         [SerializeField]
         private Slider progressBar;
@@ -15,6 +16,7 @@ namespace Games.Utils
         public bool IsComplete { get; private set; }
 
         private Timer _timer = new();
+        private bool _wasComplete;
 
         public void StartTimer()
         {
@@ -26,6 +28,19 @@ namespace Games.Utils
         {
             _timer.Tick();
             progressBar.value = _timer.Counter;
+            IsComplete = _timer.IsComplete;
+
+            if (!_wasComplete && IsComplete)
+            {
+                onComplete.Invoke();
+            }
+            
+            _wasComplete = IsComplete;
+        }
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            stream.Serialize(ref _timer.Counter);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Utils.Data
                     decompressedArray = decompressedStream.ToArray();
                 }
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 // ignored
             }

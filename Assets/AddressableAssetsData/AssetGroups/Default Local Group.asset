@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 3707c02987a220e4bbedc57f3e90f05a
+  m_SerializeEntries:
+  - m_GUID: 37f92a651ed262a45a255af4662c87f9
+    m_Address: Prefabs/SoundManager
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9cc24bd5ecfbbc4bb94f8beb7e85f4b
+    m_Address: Prefabs/SceneManager
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 89a57313fe67a4a4c855c561a8d4a2d9
+    m_Address: Prefabs/SyncManager
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 70c4b02956d109946a20cb9e9a3b6e85
+    m_Address: Prefabs/PreferencesLoader
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: c1ed7b76998d70948b432a409e90204f, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 76eb734e05083c84e9cd0c3f5f748306, type: 2}
+    - {fileID: 11400000, guid: e01ad8e0c1e90e34eadd2cd21a32c386, type: 2}

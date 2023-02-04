@@ -10,8 +10,8 @@ namespace Games.GameModes.BaubleBlitz
         private void Start()
         {
             var avatar = PlayerData.Read<int>(PhotonNetwork.LocalPlayer, GameConstants.CustomPlayerProperties.AvatarIndex);
-            var avatarObj = LobbyData.Instance.gameMode.playerAvatars[avatar];
-            var playerChar = PhotonNetwork.Instantiate("Games/Bauble Blitz/Players/" + avatarObj.Prefab.name, Vector3.zero, Quaternion.identity);
+            var avatarObj = LobbyData.Instance.PartyGame.playerAvatars[avatar];
+            var playerChar = PhotonNetwork.Instantiate("Games/Bauble Blitz/Players/" + avatarObj.PlayerLobbySprite.Prefab.name, Vector3.zero, Quaternion.identity);
             PhotonNetwork.LocalPlayer.TagObject = playerChar;
         }
     }

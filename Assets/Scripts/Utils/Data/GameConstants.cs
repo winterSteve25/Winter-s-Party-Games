@@ -16,6 +16,7 @@ namespace Utils.Data
             public const string MusicVolume = "MusicVolume";
             public const string UIVolume = "UIVolume";
             public const string SfxVolume = "SFXVolume";
+            public const string Fullscreen = "Fullscreen";
         }
 
         public static class CustomRoomProperties
@@ -49,22 +50,23 @@ namespace Utils.Data
 
         public enum Sounds
         {
-            SelectableHover,
-            PlayerJoinLobby,
-            PlayerLeaveLobby,
-            SceneTransition,
-            SceneTransitionFinish,
-            PopUp,
-            Tune1,
-            Score
+            SelectableHover = 1,
+            PlayerJoinLobby = 2,
+            PlayerLeaveLobby = 3,
+            SceneTransition = 4,
+            SceneTransitionFinish = 5,
+            PopUp = 6,
+            Tune1 = 7,
+            Score = 8,
+            Countdown = 0,
         }
 
         public enum SoundCategory
         {
-            Music,
-            UI,
-            Sfx,
-            Master
+            Music = 1,
+            UI = 2,
+            Sfx = 3,
+            Master = 4
         }
     }
 }

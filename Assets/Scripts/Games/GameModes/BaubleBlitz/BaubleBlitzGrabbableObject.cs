@@ -1,4 +1,6 @@
 ﻿using System;
+using Network.Sync;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Games.GameModes.BaubleBlitz
@@ -13,7 +15,18 @@ namespace Games.GameModes.BaubleBlitz
         public virtual float SpeedReduction => speedReduction;
 
         // Whether this object is currently being grabbed.
-        [NonSerialized] public bool Grabbed;
+        public bool Grabbed
+        {
+            get => _grabbed.Value;
+            set => _grabbed.Value = value;
+        }
+        
+        // The actor id was the player that is grabbing this object
+        public int Grabber
+        {
+            get => _grabberID.Value;
+            set => _grabberID.Value = value;
+        }
         
         // The position that this object should follow when it is being grabbed.
         [NonSerialized] public Transform FollowPosition;
@@ -28,16 +41,22 @@ namespace Games.GameModes.BaubleBlitz
         [NonSerialized] public Quaternion RotationOffset = Quaternion.identity;
         
         // The default value for the SpeedReduction property. This can be changed in the Unity editor.
-        [SerializeField] protected float speedReduction = 0.5f;
+        protected float speedReduction = 0.5f;
         
         // Whether this object uses physics-based movement.
         private bool _physicsBased;
+        
+        // Internal network synced variables
+        private SyncedVar<bool> _grabbed;
+        private SyncedVar<int> _grabberID;
 
         // Initialize the RigidBody property and set the _physicsBased flag.
         protected virtual void Start()
         {
             RigidBody = GetComponent<Rigidbody2D>();
             _physicsBased = RigidBody != null;
+            _grabbed = false;
+            _grabberID = -1;
         }
 
         // Update the position and rotation of this object if it is being grabbed and not using physics-based movement.
@@ -45,6 +64,7 @@ namespace Games.GameModes.BaubleBlitz
         {
             if (_physicsBased) return;
             if (!Grabbed) return;
+            if (Grabber != PhotonNetwork.LocalPlayer.ActorNumber) return;
             transform.SetPositionAndRotation((Vector2) FollowPosition.position + PositionOffset, FollowRotation.rotation * RotationOffset);
         }
 
@@ -53,6 +73,7 @@ namespace Games.GameModes.BaubleBlitz
         {
             if (!_physicsBased) return;
             if (!Grabbed) return;
+            if (Grabber != PhotonNetwork.LocalPlayer.ActorNumber) return;
             RigidBody.MovePosition((Vector2) FollowPosition.position + PositionOffset);
             RigidBody.SetRotation(FollowRotation.rotation * RotationOffset);
         }

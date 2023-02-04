@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd7a91ae25d4f02bf303963dbdfc695, type: 3}
+  m_Name: Word Mania
+  m_EditorClassIdentifier: 
+  roomScene: ROOM_WordMania
+  gameScene: GAME_WORD-MANIA_Story Writing
+  maximumPlayers: 8
+  minimumPlayers: 2
+  playerAvatars:
+  - useDefaultLobbyItem: 0
+    playerLobbyItem: {fileID: 7342181973801289929, guid: 5aac06e9b7c774d499e3ca7089f3a54a, type: 3}
+    playerLobbySprite:
+      sprite: {fileID: 0}
+      controller: {fileID: 0}
+      prefab: {fileID: 2667064324438211130, guid: 77be1b8f1402d744cb067e39258fcedc, type: 3}
+      prefabUseMode: 1
+  - useDefaultLobbyItem: 0
+    playerLobbyItem: {fileID: 6584264243005231270, guid: ff64fb9ed2e8601458d5a9d62d142ce2, type: 3}
+    playerLobbySprite:
+      sprite: {fileID: 0}
+      controller: {fileID: 0}
+      prefab: {fileID: 3717175052604428940, guid: 60b087c28ab8707418b27d15864b078e, type: 3}
+      prefabUseMode: 1
+  - useDefaultLobbyItem: 1
+    playerLobbyItem: {fileID: 0}
+    playerLobbySprite:
+      sprite: {fileID: 0}
+      controller: {fileID: 0}
+      prefab: {fileID: 7919737555213118978, guid: e4e21487c6e95fa47bf05ec3820ff093, type: 3}
+      prefabUseMode: 1
+  - useDefaultLobbyItem: 1
+    playerLobbyItem: {fileID: 0}
+    playerLobbySprite:
+      sprite: {fileID: 0}
+      controller: {fileID: 0}
+      prefab: {fileID: 8375028066944256370, guid: 96196b80ec9d1c142aa664ab0846055a, type: 3}
+      prefabUseMode: 0
+  - useDefaultLobbyItem: 0
+    playerLobbyItem: {fileID: 1494445000862792609, guid: 53d15c0f4567b9f499fcaf7224e17b3a, type: 3}
+    playerLobbySprite:
+      sprite: {fileID: 0}
+      controller: {fileID: 0}
+      prefab: {fileID: 1789626701735993215, guid: b6665c1d1459a9648b89cb38e5090a5e, type: 3}
+      prefabUseMode: 1
+  - useDefaultLobbyItem: 0
+    playerLobbyItem: {fileID: 7775455751973302533, guid: ede98c13eef26534cb3668b8d4f35fb8, type: 3}
+    playerLobbySprite:
+      sprite: {fileID: 0}
+      controller: {fileID: 0}
+      prefab: {fileID: 6333126399422446328, guid: 99ea183cd1f90814eb99d1c2db2de578, type: 3}
+      prefabUseMode: 1
+  - useDefaultLobbyItem: 0
+    playerLobbyItem: {fileID: 2975319075758439476, guid: cef45f123d800514b94442e6897a86e9, type: 3}
+    playerLobbySprite:
+      sprite: {fileID: 0}
+      controller: {fileID: 0}
+      prefab: {fileID: 7678019587676606898, guid: a1102dd48e9fe5f4ab6632d22b3a3682, type: 3}
+      prefabUseMode: 1
+  - useDefaultLobbyItem: 0
+    playerLobbyItem: {fileID: 2472562192618092454, guid: eb7f3fe0c2cabac49add81bee3670b8f, type: 3}
+    playerLobbySprite:
+      sprite: {fileID: 0}
+      controller: {fileID: 0}
+      prefab: {fileID: 8536741952941868563, guid: 7661e6f100a621140b411ebb597bf16c, type: 3}
+      prefabUseMode: 1
+  - useDefaultLobbyItem: 1
+    playerLobbyItem: {fileID: 0}
+    playerLobbySprite:
+      sprite: {fileID: 0}
+      controller: {fileID: 0}
+      prefab: {fileID: 3890010291066187801, guid: f17b7cc498268f94aa53eebff02daaa3, type: 3}
+      prefabUseMode: 1
+  gameModePreview: {fileID: 21300000, guid: 78ad8ca87262bfc43986a90040f7f1dd, type: 3}
+  gameModeName: Word Mania
+  description: Write a funny goofy story. Others will use words from your story to
+    fill in blanks and create funny sentences for all to judge!

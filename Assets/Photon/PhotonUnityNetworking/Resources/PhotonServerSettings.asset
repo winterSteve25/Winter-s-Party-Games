@@ -50,6 +50,9 @@ MonoBehaviour:
   - NextRPC
   - DataReceived
   - NotifyChange
+  - Submit
+  - NotifyListChange
+  - CancelStartGameRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

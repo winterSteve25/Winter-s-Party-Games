@@ -14,6 +14,7 @@ namespace Menu
             audioMixer.SetFloat(GameConstants.PlayerPrefs.SfxVolume, PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.SfxVolume, 1));
             audioMixer.SetFloat(GameConstants.PlayerPrefs.MusicVolume, PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.MusicVolume, 1));
             audioMixer.SetFloat(GameConstants.PlayerPrefs.UIVolume, PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.UIVolume, 1));
+            Screen.fullScreen = PlayerPrefs.GetInt(GameConstants.PlayerPrefs.Fullscreen, 1) == 1;
             Destroy(gameObject);
         }
     }

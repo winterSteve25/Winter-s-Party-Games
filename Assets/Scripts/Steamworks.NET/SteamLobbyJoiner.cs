@@ -30,14 +30,14 @@ namespace Steamworks.NET
             backButton.SetActive(false);
             _lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
             _lobbyDataUpdated = Callback<LobbyDataUpdate_t>.Create(OnLobbyDataUpdated);
-            SteamMatchmaking.JoinLobby(GlobalData.Read<CSteamID>(GameConstants.GlobalDataKeys.SteamLobbyIDToJoin));
+            SteamMatchmaking.JoinLobby(GlobalData.Read(GameConstants.GlobalDataKeys.SteamLobbyIDToJoin));
         }
 
         private void OnLobbyEntered(LobbyEnter_t callback)
         {
             Debug.Log("Joined Steam lobby");
             // if we are host we are already automatically joining the room. So only join room if we are not host
-            if (GlobalData.ExistAnd<bool>(GameConstants.GlobalDataKeys.IsHost, isHost => isHost)) return;
+            if (GlobalData.ExistAnd(GameConstants.GlobalDataKeys.IsHost, isHost => isHost)) return;
             GlobalData.Set(GameConstants.GlobalDataKeys.IsHost, false);
             var lobbyID = new CSteamID(callback.m_ulSteamIDLobby);
             StartCoroutine(JoinRoom(lobbyID));

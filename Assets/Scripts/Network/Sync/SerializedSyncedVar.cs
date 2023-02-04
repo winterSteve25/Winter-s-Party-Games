@@ -10,13 +10,13 @@ namespace Network.Sync
         private readonly Serializer _serializer;
         private readonly Deserializer _deserializer;
 
-        public SerializedSyncedVar(Serializer serializer, Deserializer deserializer, Action onChanged = null) : base(onChanged)
+        public SerializedSyncedVar(Serializer serializer, Deserializer deserializer, string id = "", bool uniqueID = false, Action onChanged = null) : base(id, uniqueID, onChanged)
         {
             _serializer = serializer;
             _deserializer = deserializer;
         }
 
-        public SerializedSyncedVar(Serializer serializer, Deserializer deserializer, T value, Action onChanged = null) : base(value, onChanged)
+        public SerializedSyncedVar(Serializer serializer, Deserializer deserializer, T value, string id = "", bool uniqueID = false, Action onChanged = null) : base(value, id, uniqueID, onChanged)
         {
             _serializer = serializer;
             _deserializer = deserializer;
@@ -27,7 +27,7 @@ namespace Network.Sync
             SyncManager.Changed(ID, _serializer(_Value));
         }
 
-        public override void Set(object val)
+        public override void SyncSet(object val)
         {
             _Value = _deserializer(val);
             OnChanged?.Invoke();

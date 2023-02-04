@@ -1,8 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Games.Base;
 using Photon.Pun;
 using Photon.Realtime;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,29 +15,30 @@ namespace Base
 {
     public class LobbyManager : MonoBehaviourPunCallbacks
     {
-        [SerializeField]
-        // [InfoBox("All objects in this list will only be initialized when the player is the host")]
-        protected GameObject[] hostObjects;
+        [SerializeField, FoldoutGroup("Side Specific Objects")]
+        [Tooltip("All objects in this list will only be initialized when the player is the host")]
+        private GameObject[] hostObjects;
         
-        [SerializeField] 
-        // [InfoBox("All objects in this list will only be initialized when the player is not host")]
-        protected GameObject[] playerObjects;
+        [SerializeField, FoldoutGroup("Side Specific Objects")] 
+        [Tooltip("All objects in this list will only be initialized when the player is not host")]
+        private GameObject[] playerObjects;
 
-        [SerializeField] protected TextMeshProUGUI roomCodeText;
-        [SerializeField] protected Button startGameButton;
+        [SerializeField, Required] private TextMeshProUGUI roomCodeText;
+        [SerializeField, Required] private Button startGameButton;
 
-        protected List<PlayerLobbyItem> AllPlayerSlots;
-        [SerializeField] protected PlayerLobbyItem[] availablePlayerSlots;
-        [SerializeField] protected PartyGame gameMode;
+        private List<PlayerLobbyItem> _allPlayerSlots;
+        [SerializeField] private PlayerLobbyItem[] availablePlayerSlots;
+        [SerializeField] private GameObject hostCrown;
 
-        [SerializeField] protected GameObject hostCrown;
+        [SerializeField, Required] private TextMeshProUGUI startingCountDown;
+        [SerializeField, Required] private GameObject cancelButton;
 
-        protected List<int> AvailableAvatarIndices;
-        protected bool IsHost;
-        protected int SelfAvatarChoice;
-        protected PlayerLobbyItem SelfSlot;
+        private List<int> _availableAvatarIndices;
+        private bool _isHost;
+        private int _selfAvatarChoice;
+        private PlayerLobbyItem _selfSlot;
 
-        protected virtual void Awake()
+        private void Awake()
         {
             if (GlobalData.ExistAnd(GameConstants.GlobalDataKeys.IsHost, isHost => isHost))
             {
@@ -45,7 +47,7 @@ namespace Base
                     obj.SetActive(false);
                 }
 
-                IsHost = true;
+                _isHost = true;
             }
             else
             {
@@ -54,39 +56,41 @@ namespace Base
                     obj.SetActive(false);
                 }
 
-                IsHost = false;
+                _isHost = false;
             }
 
             // adds all available avatars
-            AvailableAvatarIndices = new List<int>();
+            _availableAvatarIndices = new List<int>();
 
-            for (var i = 0; i < gameMode.playerAvatars.Length; i++)
+            for (var i = 0; i < FindObjectOfType<LobbyData>().PartyGame.playerAvatars.Length; i++)
             {
-                AvailableAvatarIndices.Add(i);
+                _availableAvatarIndices.Add(i);
             }
 
             // remove the already taken avatars
             foreach (var player in PhotonNetwork.CurrentRoom.Players.Values.Where(player =>
                          player.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber))
             {
-                AvailableAvatarIndices.Remove(PlayerData.Read<int>(player,
+                _availableAvatarIndices.Remove(PlayerData.Read<int>(player,
                     GameConstants.CustomPlayerProperties.AvatarIndex));
             }
 
             // find a non taken avatar and remove it from the list of available avatars
-            var avatarIndex = AvailableAvatarIndices[Random.Range(0, AvailableAvatarIndices.Count)];
-            AvailableAvatarIndices.Remove(avatarIndex);
-            SelfAvatarChoice = avatarIndex;
+            var avatarIndex = _availableAvatarIndices[Random.Range(0, _availableAvatarIndices.Count)];
+            _availableAvatarIndices.Remove(avatarIndex);
+            _selfAvatarChoice = avatarIndex;
 
             var p = PhotonNetwork.LocalPlayer;
             PlayerData.Set(p, GameConstants.CustomPlayerProperties.AvatarIndex, avatarIndex);
-            PlayerData.Set(p, GameConstants.CustomPlayerProperties.IsHost, IsHost);
+            PlayerData.Set(p, GameConstants.CustomPlayerProperties.IsHost, _isHost);
         }
 
-        protected virtual void Start()
+        private void Start()
         {
+            startingCountDown.gameObject.SetActive(false);
+            
             // all slots is a copy of available player slots, used to restore slots when players leave
-            AllPlayerSlots = new List<PlayerLobbyItem>(availablePlayerSlots);
+            _allPlayerSlots = new List<PlayerLobbyItem>(availablePlayerSlots);
 
             // disable all player slots
             foreach (var slot in availablePlayerSlots)
@@ -103,7 +107,7 @@ namespace Base
 
                 if (player.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
                 {
-                    data = new PlayerLobbyItemData(player, SelfAvatarChoice);
+                    data = new PlayerLobbyItemData(player, _selfAvatarChoice);
                 }
                 else
                 {
@@ -116,26 +120,31 @@ namespace Base
 
             roomCodeText.text += PhotonNetwork.CurrentRoom.Name;
             CheckObjectsAvailability();
-            if (IsHost)
+            if (_isHost)
             {
-                hostCrown.GetComponent<RectTransform>().SetPositionAndRotation(SelfSlot.GetCrownLocation(), SelfSlot.GetCrownRotation());
+                hostCrown.GetComponent<RectTransform>().SetPositionAndRotation(_selfSlot.GetCrownLocation(), _selfSlot.GetCrownRotation());
             }
             else
             {
                 RefreshCrown();
             }
 
-            photonView.RPC(nameof(JoinGame), RpcTarget.OthersBuffered, PhotonNetwork.LocalPlayer.ActorNumber, SelfAvatarChoice);
+            photonView.RPC(nameof(JoinGame), RpcTarget.OthersBuffered, PhotonNetwork.LocalPlayer.ActorNumber, _selfAvatarChoice);
         }
 
-        public virtual void StartGame()
+        public void StartGame()
         {
             photonView.RPC(nameof(StartGameRPC), RpcTarget.AllBufferedViaServer);
         }
-
-        protected virtual void CheckObjectsAvailability()
+        
+        public void CancelStartGame()
         {
-            if (IsHost)
+            photonView.RPC(nameof(CancelStartGameRPC), RpcTarget.AllBufferedViaServer);
+        }
+
+        private void CheckObjectsAvailability()
+        {
+            if (_isHost)
             {
                 foreach (var obj in playerObjects)
                 {
@@ -147,9 +156,9 @@ namespace Base
                     obj.SetActive(true);
                 }
 
-                startGameButton.interactable = LobbyData.Instance.gameMode.minimumPlayers == 0 ||
+                startGameButton.interactable = LobbyData.Instance.PartyGame.minimumPlayers == 0 ||
                                                LobbyData.Instance.Players.Count >=
-                                               LobbyData.Instance.gameMode.minimumPlayers;
+                                               LobbyData.Instance.PartyGame.minimumPlayers;
             }
             else
             {
@@ -163,6 +172,8 @@ namespace Base
                     obj.SetActive(true);
                 }
             }
+            
+            cancelButton.SetActive(false);
         }
 
         [PunRPC]
@@ -180,9 +191,47 @@ namespace Base
         [PunRPC]
         private void StartGameRPC()
         {
-            SceneManager.TransitionToScene(LobbyData.Instance.gameMode.gameScene);
+            if (_isHost)
+            {
+                startGameButton.gameObject.SetActive(false);
+                cancelButton.SetActive(true);
+            }
+            
+            StartCoroutine(StartGameRoutine());
+            
+            IEnumerator StartGameRoutine()
+            {
+                SoundManager.Play(GameConstants.Sounds.Countdown);
+                startingCountDown.text = "3";
+                startingCountDown.gameObject.SetActive(true);
+                yield return new WaitForSeconds(1f);
+                
+                SoundManager.Play(GameConstants.Sounds.Countdown);
+                startingCountDown.text = "2";
+                yield return new WaitForSeconds(1f);
+                
+                SoundManager.Play(GameConstants.Sounds.Countdown);
+                startingCountDown.text = "1";
+                yield return new WaitForSeconds(1f);
+                
+                SceneManager.TransitionToScene(LobbyData.Instance.PartyGame.gameScene);
+            }
         }
 
+        [PunRPC]
+        private void CancelStartGameRPC()
+        {
+            startingCountDown.gameObject.SetActive(false);
+
+            if (_isHost)
+            {
+                startGameButton.gameObject.SetActive(true);
+                cancelButton.SetActive(false);
+            }
+            
+            StopAllCoroutines();
+        }
+        
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
             SoundManager.Play(GameConstants.Sounds.PlayerLeaveLobby);
@@ -196,18 +245,18 @@ namespace Base
                 // make this player the host
                 if (LobbyData.Instance.Players.First().actorID == PhotonNetwork.LocalPlayer.ActorNumber)
                 {
-                    IsHost = true;
+                    _isHost = true;
                     GlobalData.Set(GameConstants.GlobalDataKeys.IsHost, true);
                     PlayerData.Set(PhotonNetwork.LocalPlayer, GameConstants.CustomPlayerProperties.IsHost, true);
 
-                    hostCrown.GetComponent<RectTransform>().position = SelfSlot.GetCrownLocation();
-                    hostCrown.GetComponent<RectTransform>().rotation = SelfSlot.GetCrownRotation();
+                    hostCrown.GetComponent<RectTransform>().position = _selfSlot.GetCrownLocation();
+                    hostCrown.GetComponent<RectTransform>().rotation = _selfSlot.GetCrownRotation();
                 }
             }
 
             CheckObjectsAvailability();
 
-            if (!IsHost)
+            if (!_isHost)
             {
                 RefreshCrown();
             }
@@ -216,7 +265,7 @@ namespace Base
         private void RestorePlayerSlot(Player player)
         {
             var data = LobbyData.Instance.Players.Find(p => p.actorID == player.ActorNumber);
-            var slot = AllPlayerSlots[data.slotTaken];
+            var slot = _allPlayerSlots[data.slotTaken];
             slot.ShrinkIcon(() =>
             {
                 slot.gameObject.SetActive(false);
@@ -226,23 +275,33 @@ namespace Base
 
         private void AddPlayerToNextAvailableSlot(PlayerLobbyItemData data)
         {
-            var slot = availablePlayerSlots.First(element => element is not null);
-            data.slotTaken = AllPlayerSlots.IndexOf(slot);
+            var placeHolderSlot = availablePlayerSlots.First(element => element is not null);
+            data.slotTaken = _allPlayerSlots.IndexOf(placeHolderSlot);
             availablePlayerSlots[data.slotTaken] = null;
-            slot.gameObject.SetActive(true);
-            slot.ZoomIcon();
-            slot.data = data;
-            slot.UpdateAppearance();
+            
+            var placeHolderSlotTransform = placeHolderSlot.transform;
+            var actualSlot =
+                Instantiate(LobbyData.Instance.PartyGame.playerAvatars[data.avatarIndex].PlayerLobbyItemPrefab,
+                    placeHolderSlotTransform.position, placeHolderSlotTransform.rotation,
+                    placeHolderSlotTransform.parent);
+            
+            _allPlayerSlots[data.slotTaken] = actualSlot;
+            
+            Destroy(placeHolderSlot.gameObject);
+      
+            actualSlot.ZoomIcon(Vector3.zero);
+            actualSlot.data = data;
+            actualSlot.UpdateAppearance();
 
             if (data.actorID == PhotonNetwork.LocalPlayer.ActorNumber)
             {
-                SelfSlot = slot;
+                _selfSlot = actualSlot;
             }
         }
 
         private void RefreshCrown()
         {
-            foreach (var slot in AllPlayerSlots)
+            foreach (var slot in _allPlayerSlots)
             {
                 var dataActorID = slot.data.actorID;
                 if (dataActorID == PhotonNetwork.LocalPlayer.ActorNumber) continue;

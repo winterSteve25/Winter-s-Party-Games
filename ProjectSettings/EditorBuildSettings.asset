@@ -36,6 +36,16 @@ EditorBuildSettings:
     path: Assets/Scenes/Games/BaubleBlitz/GAME_BAUBLE-BLITZ_Tree Scene.unity
     guid: c4331564bb040c14db4cafc596457a69
   - enabled: 1
-    path: Assets/Scenes/Games/BaubleBlitz/GAME_BAUBLE-BLITZ_Item Area.unity
-    guid: cf3ee977fc8a7b24a9e10202fb4705cc
-  m_configObjects: {}
+    path: Assets/Scenes/Games/WordMania/ROOM_WordMania.unity
+    guid: 750ca86d285f4434b949c4b75e51ac00
+  - enabled: 1
+    path: Assets/Scenes/Games/WordMania/GAME_WORD-MANIA_Story Writing.unity
+    guid: 514e80c1a3cfc444ca8eda09e542258f
+  - enabled: 1
+    path: Assets/Scenes/Games/WordMania/GAME_WORD-MANIA_Answer.unity
+    guid: 53a05569a8e2e524fad8fdae1c29e1bf
+  - enabled: 1
+    path: Assets/Scenes/Games/WordMania/GAME_WORD-MANIA_Vote.unity
+    guid: 2a4d8fc4089a13040aded3f39f43ff6f
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 072cef2b32a92c043ae97e79f819104c, type: 2}

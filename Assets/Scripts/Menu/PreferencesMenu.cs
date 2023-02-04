@@ -14,7 +14,7 @@ namespace Menu
         [SerializeField] private Slider musicAudioSlider;
         [SerializeField] private Slider uiAudioSlider;
 
-        // [SerializeField] private Toggle fullScreenToggle;
+        [SerializeField] private Toggle fullScreenToggle;
         // [SerializeField] private TMP_Dropdown resolution;
 
         private void MasterSliderChanged(float value)
@@ -31,7 +31,7 @@ namespace Menu
             musicAudioSlider.onValueChanged.AddListener(MusicSliderChanged);
             uiAudioSlider.onValueChanged.AddListener(UISliderChanged);
 
-            // fullScreenToggle.onValueChanged.AddListener(FullScreenToggle);
+            fullScreenToggle.onValueChanged.AddListener(FullScreenToggle);
             // resolution.onValueChanged.AddListener(ResolutionChanged);
 
             masterAudioSlider.value = PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.MasterVolume, 1);
@@ -39,7 +39,7 @@ namespace Menu
             musicAudioSlider.value = PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.MusicVolume, 1);
             uiAudioSlider.value = PlayerPrefs.GetFloat(GameConstants.PlayerPrefs.UIVolume, 1);
 
-            // fullScreenToggle.isOn = PlayerPrefs.GetInt("FullScreen") == 1;
+            fullScreenToggle.isOn = PlayerPrefs.GetInt(GameConstants.PlayerPrefs.Fullscreen, 1) == 1;
             // resolution.value = PlayerPrefs.GetInt("ResolutionIndex");
         }
 
@@ -67,7 +67,13 @@ namespace Menu
         private static void FullScreenToggle(bool value)
         {
             Screen.fullScreen = value;
-            PlayerPrefs.SetInt("FullScreen", value ? 1 : 0);
+
+            if (value)
+            {
+                Screen.SetResolution(Screen.width, Screen.height, true);
+            }
+
+            PlayerPrefs.SetInt(GameConstants.PlayerPrefs.Fullscreen, value ? 1 : 0);
             PlayerPrefs.Save();
         }
 

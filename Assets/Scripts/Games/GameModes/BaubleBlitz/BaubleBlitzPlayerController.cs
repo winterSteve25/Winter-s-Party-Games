@@ -80,6 +80,7 @@ namespace Games.GameModes.BaubleBlitz
                         _grabbingObject.FollowPosition = grabItemSpot;
                         _grabbingObject.FollowRotation = thisTransform;
                         _grabbingObject.Grabbed = true;
+                        _grabbingObject.Grabber = PhotonNetwork.LocalPlayer.ActorNumber;
                         _originalObjectParent = _grabbingObject.transform.parent;
 
                         // Update the hierarchy
@@ -106,6 +107,7 @@ namespace Games.GameModes.BaubleBlitz
                             _grabbingObject.FollowPosition = shoppingCartNearby.ItemSpotOnCart;
                             _grabbingObject.FollowRotation = cartTransform;
                             _grabbingObject.Grabbed = true;
+                            _grabbingObject.Grabber = PhotonNetwork.LocalPlayer.ActorNumber;
 
                             grabbedObjectTransform.SetParent(cartTransform);
                             grabbedObjectTransform.position = shoppingCartNearby.transform.position;
@@ -120,6 +122,7 @@ namespace Games.GameModes.BaubleBlitz
                     // If currently grabbing a shopping cart, we release it.
                     _grabbingObject.transform.SetParent(_originalObjectParent);
                     _grabbingObject.Grabbed = false;
+                    _grabbingObject.Grabber = -1;
                     _grabbingObject.FollowPosition = null;
                     _grabbingObject.FollowRotation = null;
                     _grabbingObject = null;

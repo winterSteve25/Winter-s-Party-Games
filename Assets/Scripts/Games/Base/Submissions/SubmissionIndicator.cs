@@ -1,48 +1,57 @@
 using Base;
-using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Games.Base.Submissions
 {
     [RequireComponent(typeof(HorizontalLayoutGroup))]
-    public class SubmissionIndicator : MonoBehaviour
+    public class SubmissionIndicator : MonoBehaviourPunCallbacks
     {
-        [SerializeField] private GameObject slotPrefab;
         private PlayerLobbyItem[] _slots;
+        private PhotonView _photonView;
 
         private void Start()
         {
+            _photonView = GetComponent<PhotonView>();
+            
             var playerLobbyItemDatas = LobbyData.Instance.Players;
             var count = playerLobbyItemDatas.Count;
             _slots = new PlayerLobbyItem[count];
 
             for (var i = 0; i < count; i++)
             {
-                var go = Instantiate(slotPrefab, transform);
-                go.GetComponentInChildren<Image>().color = new Color(0.4f, 0.4f, 0.4f);
-                go.GetComponent<RectTransform>().localScale = new Vector3(0.6f, 0.6f, 0.6f);
-                _slots[i] = go.GetComponent<PlayerLobbyItem>();
-            }
-            
-            foreach (var data in playerLobbyItemDatas)
-            {
-                var playerLobbyItem = _slots[data.slotTaken];
+                var data = playerLobbyItemDatas[i];
+                var playerLobbyItem = Instantiate(LobbyData.Instance.PartyGame.playerAvatars[data.avatarIndex].PlayerLobbyItemPrefab, transform);
                 playerLobbyItem.data = data;
                 playerLobbyItem.UpdateAppearance();
+                playerLobbyItem.ChangeColor(new Color(0.4f, 0.4f, 0.4f));
+                playerLobbyItem.ShrinkIcon(endScale: 0.6f);
+                _slots[i] = playerLobbyItem;
             }
         }
 
-        public TweenerCore<Vector3, Vector3, VectorOptions> Submit(int actorID)
+        [PunRPC]
+        private void Submit(int actorID)
         {
             // animate the player slot visual to indicate player has finished
             var data = LobbyData.Instance.Players.Find(data => data.actorID == actorID);
             var playerLobbyItem = _slots[data.slotTaken];
-            playerLobbyItem.GetComponentInChildren<Image>().color = Color.white;
-            var rectTransform = playerLobbyItem.GetComponent<RectTransform>();
-            return rectTransform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce);
+            playerLobbyItem.ChangeColor(Color.white);
+            playerLobbyItem.ZoomIcon();
+        }
+
+        public void Submit()
+        {
+            _photonView.RPC(nameof(Submit), RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
+        }
+
+        public override void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            var data = LobbyData.Instance.Players.Find(data => data.actorID == otherPlayer.ActorNumber);
+            _slots[data.slotTaken].Destroy();
+            _slots[data.slotTaken] = null;
         }
     }
 }

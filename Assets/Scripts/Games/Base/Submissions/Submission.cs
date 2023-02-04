@@ -1,3 +1,5 @@
+using Photon.Pun;
+
 namespace Games.Base.Submissions
 {
     public class Submission<T>
@@ -9,6 +11,10 @@ namespace Games.Base.Submissions
         {
             SubmitterActorID = submitterActorID;
             SubmissionContent = submissionContent;
+        }
+
+        public Submission(T submissionContent) : this(PhotonNetwork.LocalPlayer.ActorNumber, submissionContent)
+        {
         }
 
         public override string ToString()

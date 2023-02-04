@@ -218,7 +218,7 @@ namespace Photon.Pun
 
 
         // for asynchronous network synched loading.
-        private static AsyncOperation _AsyncLevelLoadingOperation;
+        public static AsyncOperation AsyncLevelLoadingOperation;
 
         private static float _levelLoadingProgress = 0f;
 
@@ -235,9 +235,9 @@ namespace Photon.Pun
         {
             get
             {
-                if (_AsyncLevelLoadingOperation != null)
+                if (AsyncLevelLoadingOperation != null)
                 {
-                    _levelLoadingProgress = _AsyncLevelLoadingOperation.progress;
+                    _levelLoadingProgress = AsyncLevelLoadingOperation.progress;
                 }
                 else if (_levelLoadingProgress > 0f)
                 {
@@ -257,10 +257,10 @@ namespace Photon.Pun
         private static void LeftRoomCleanup()
         {
             // Clean up if we were loading asynchronously.
-            if (_AsyncLevelLoadingOperation != null)
+            if (AsyncLevelLoadingOperation != null)
             {
-                _AsyncLevelLoadingOperation.allowSceneActivation = false;
-                _AsyncLevelLoadingOperation = null;
+                AsyncLevelLoadingOperation.allowSceneActivation = false;
+                AsyncLevelLoadingOperation = null;
             }
 
 
@@ -1468,7 +1468,7 @@ namespace Photon.Pun
         {
             if (loadingLevelAndPausedNetwork)
             {
-                _AsyncLevelLoadingOperation = null;
+                AsyncLevelLoadingOperation = null;
                 loadingLevelAndPausedNetwork = false;
                 PhotonNetwork.IsMessageQueueRunning = true;
             }
@@ -2159,15 +2159,16 @@ namespace Photon.Pun
 
 
             // if the new levelId does not match the current room-property, we can cancel existing loading (as we start a new one)
-            if (_AsyncLevelLoadingOperation != null)
+            if (AsyncLevelLoadingOperation != null)
             {
-                if (!_AsyncLevelLoadingOperation.isDone)
+                if (!AsyncLevelLoadingOperation.isDone)
                 {
                     Debug.LogWarning("PUN cancels an ongoing async level load, as another scene should be loaded. Next scene to load: " + levelId);
                 }
 
-                _AsyncLevelLoadingOperation.allowSceneActivation = false;
-                _AsyncLevelLoadingOperation = null;
+                Debug.Log("set null");
+                AsyncLevelLoadingOperation.allowSceneActivation = false;
+                AsyncLevelLoadingOperation = null;
             }
 
 

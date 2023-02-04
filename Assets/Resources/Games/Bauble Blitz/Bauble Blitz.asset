@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd7a91ae25d4f02bf303963dbdfc695, type: 3}
+  m_Name: Bauble Blitz
+  m_EditorClassIdentifier: 
+  roomScene: ROOM_BaubleBlitz
+  gameScene: GAME_BAUBLE-BLITZ_Tree Scene
+  maximumPlayers: 8
+  minimumPlayers: 1
+  playerAvatars:
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 8491103036800288887, guid: 47dc9da8fbe0a7b42aff2c7cca488c98, type: 3}
+    spawnInWorldPlace: 1
+  - sprite: {fileID: 0}
+    controller: {fileID: 0}
+    prefab: {fileID: 8491103036800288887, guid: 5a666e0f0572cb44783baebd98e3c9ef, type: 3}
+    spawnInWorldPlace: 1
+  gameModePreview: {fileID: 21300000, guid: f70b103fa266d314cb337df1feec5caf, type: 3}
+  gameModeName: Bauble Blitz
+  description: Collect christmas ornants with blobby characters for the christmas
+    tree!

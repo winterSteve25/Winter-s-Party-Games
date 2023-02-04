@@ -17,6 +17,7 @@ namespace Network.Scenes
         [SerializeField, Required] private PartyGame partyGame;
         [SerializeField, Required] private Image gameModePreview;
         [SerializeField, Required] private TMP_Text gameModeName;
+        [SerializeField, Required] private TMP_Text gameModeDescription;
 
         private bool _creating;
 
@@ -24,6 +25,7 @@ namespace Network.Scenes
         {
             gameModePreview.sprite = partyGame.gameModePreview;
             gameModeName.text = partyGame.gameModeName;
+            gameModeDescription.text = partyGame.description;
         }
 
         private void CreateRoom()

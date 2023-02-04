@@ -29,6 +29,7 @@ namespace Utils
             }
 
             Destroy(gameObject);
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += (_, _) => PhotonNetwork.IsMessageQueueRunning = true;
         }
 
         private IEnumerator Transition(string scene, bool useTransition)
@@ -43,9 +44,28 @@ namespace Utils
                 yield return new WaitForSeconds(transitionTime);
             }
 
-            PhotonNetwork.LoadLevel(scene);
-            yield return new WaitUntil(() => PhotonNetwork.LevelLoadingProgress >= 1);
+            // PhotonNetwork.LoadLevel(scene);
+            
+            // yield return new WaitUntil(() =>
+            // {
+                // var levelLoadingProgress = PhotonNetwork.LevelLoadingProgress;
+                
+                // if (levelLoadingProgress == 0 && PhotonNetwork.AsyncLevelLoadingOperation == null)
+                // {
+                    // var activeScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+                    // if (activeScene.isLoaded && activeScene.name == scene)
+                    // {
+                        // return true;
+                    // }
+                // }
+                
+                // return levelLoadingProgress >= 1;
+            // });
 
+            PhotonNetwork.IsMessageQueueRunning = false;
+            var asyncLoadScene = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(scene);
+            yield return new WaitUntil(() => asyncLoadScene.isDone);
+            
             OnTransitionedToNewScene?.Invoke();
             SoundManager.Play(GameConstants.Sounds.SceneTransitionFinish);
 

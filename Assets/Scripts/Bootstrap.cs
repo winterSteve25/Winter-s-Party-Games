@@ -2,6 +2,7 @@ using System;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public static class Bootstrap
 {
@@ -12,6 +13,11 @@ public static class Bootstrap
         PhotonPeer.RegisterType(typeof(Vector2), 253, SerializeVector2, DeserializeVector2);
         PhotonPeer.RegisterType(typeof(Quaternion), 252, SerializeQuaternion, DeserializeQuaternion);
         PhotonNetwork.AutomaticallySyncScene = true;
+
+        Addressables.InstantiateAsync("Prefabs/PreferencesLoader");
+        Addressables.InstantiateAsync("Prefabs/SceneManager");
+        Addressables.InstantiateAsync("Prefabs/SoundManager");
+        Addressables.InstantiateAsync("Prefabs/SyncManager");
     }
 
     #region Vector2

@@ -1,3 +1,4 @@
+using Base;
 using ExitGames.Client.Photon;
 using KevinCastejon.MoreAttributes;
 using Sirenix.OdinInspector;
@@ -13,7 +14,7 @@ namespace Games.Base
         [Scene] public string gameScene;
         [MinValue(2)] public byte maximumPlayers;
         [MinValue(1)] public byte minimumPlayers;
-        public PlayerLobbySprite[] playerAvatars;
+        public PlayerLobbyDisplay[] playerAvatars;
 
         [Required] public Sprite gameModePreview;
         [Required] public string gameModeName;

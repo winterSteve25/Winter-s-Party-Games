@@ -4,11 +4,12 @@ namespace Network.Sync
 {
     public class SyncedVar<T> : ISyncedVar
     {
+        public Action OnChanged;
+        
         protected readonly SyncManager SyncManager;
-        protected readonly int ID;
-        protected readonly Action OnChanged;
+        protected readonly string ID;
         protected T _Value;
-
+        
         public T Value
         {
             get => _Value;
@@ -20,16 +21,16 @@ namespace Network.Sync
             }
         }
 
-        public SyncedVar(Action onChanged = null) : this(default, onChanged)
+        public SyncedVar(string id = "", bool uniqueID = false, Action onChanged = null) : this(default, id, uniqueID, onChanged)
         {
         }
 
-        public SyncedVar(T value, Action onChanged = null)
+        public SyncedVar(T value, string id = "", bool uniqueID = false, Action onChanged = null)
         {
             SyncManager = SyncManager.Instance;
             _Value = value;
-            ID = SyncManager.AddSynced(this);
             OnChanged = onChanged;
+            ID = SyncManager.AddSynced(this, id, uniqueID);
         }
 
         ~SyncedVar()
@@ -43,13 +44,18 @@ namespace Network.Sync
         }
 
         /// <summary>
-        /// DO NOT call this. This is called by SyncManager to internally set the new value
+        /// Called by SyncManager to internally set the new value. Does not notify change and will not cause the variable to sync
         /// </summary>
         /// <param name="val"></param>
-        public virtual void Set(object val)
+        public virtual void SyncSet(object val)
         {
             _Value = (T)val;
             OnChanged?.Invoke();
+        }
+
+        public static implicit operator SyncedVar<T>(T value)
+        {
+            return new SyncedVar<T>(value);
         }
     }
 }
